@@ -1,0 +1,5 @@
+# Local Netlify folder
+.netlify
+
+# Meta Dashboard secrets
+Marketing Strategy/meta-config.txt

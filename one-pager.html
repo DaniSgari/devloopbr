@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevLoop — Company Overview</title>
+<link rel="preconnect" href="https://api.fontshare.com">
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@300,400,700,800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0A0A0A;
+    --surface:  #111111;
+    --elevated: #1A1A1A;
+    --border:   #2A2A2A;
+    --text:     #F5F5F0;
+    --muted:    rgba(245,245,240,.55);
+    --dim:      rgba(245,245,240,.3);
+    --accent:   #FF4D00;
+    --accent-s: rgba(255,77,0,.12);
+    --accent-g: rgba(255,77,0,.22);
+    --display:  'Cabinet Grotesk', system-ui, sans-serif;
+    --body:     'Satoshi', 'Inter', system-ui, sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  /* ── LAYOUT ── */
+  .page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 40px 80px;
+  }
+
+  /* ── HEADER ── */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding-bottom: 40px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 56px;
+  }
+
+  .brand { display: flex; flex-direction: column; gap: 6px; }
+
+  .logo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+    color: var(--text);
+  }
+
+  .logo span { color: var(--accent); }
+
+  .tagline {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+
+  .meta {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--accent-s);
+    border: 1px solid var(--accent-g);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 100px;
+  }
+
+  .badge-dot {
+    width: 5px;
+    height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .meta-location {
+    font-size: 12px;
+    color: var(--dim);
+    letter-spacing: 0.02em;
+  }
+
+  /* ── HERO BLOCK ── */
+  .hero {
+    margin-bottom: 64px;
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(36px, 5vw, 52px);
+    line-height: 1.08;
+    letter-spacing: -1.5px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero p {
+    max-width: 580px;
+    font-size: 16px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 24px;
+  }
+
+  /* ── SERVICES ── */
+  .services { margin-bottom: 64px; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .service-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    transition: border-color .2s;
+  }
+
+  .service-card:hover { border-color: var(--accent); }
+
+  .svc-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--accent-s);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+  }
+
+  .svc-icon svg { stroke: var(--accent); }
+
+  .svc-type {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .svc-name {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 17px;
+    line-height: 1.2;
+    color: var(--text);
+  }
+
+  .svc-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .svc-price {
+    font-size: 13px;
+    color: var(--dim);
+    margin-top: 8px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+  }
+
+  .svc-price strong {
+    color: var(--text);
+    font-weight: 600;
+  }
+
+  /* ── PROCESS ── */
+  .process { margin-bottom: 64px; }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: calc(12.5% + 8px);
+    right: calc(12.5% + 8px);
+    height: 1px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--border) 100%);
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 12px;
+    gap: 12px;
+  }
+
+  .step-num {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--text);
+    position: relative;
+    z-index: 1;
+  }
+
+  .step:first-child .step-num {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+
+  .step-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .step-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── DIFFERENTIALS ── */
+  .why { margin-bottom: 64px; }
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .why-item {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+  }
+
+  .why-icon {
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  .why-title {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 15px;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .why-desc {
+    font-size: 12.5px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* ── CTA ── */
+  .cta {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 40px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .cta-copy h2 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 28px;
+    letter-spacing: -0.5px;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .cta-copy h2 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .cta-copy p {
+    font-size: 14px;
+    color: var(--muted);
+  }
+
+  .cta-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+    flex-shrink: 0;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-family: var(--body);
+    font-weight: 500;
+    font-size: 14px;
+    padding: 12px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background .15s;
+    white-space: nowrap;
+  }
+
+  .btn-primary:hover { background: #FF7A35; }
+
+  .cta-contact {
+    font-size: 12px;
+    color: var(--dim);
+    text-align: right;
+  }
+
+  .cta-contact a {
+    color: var(--muted);
+    text-decoration: none;
+  }
+
+  .cta-contact a:hover { color: var(--accent); }
+
+  /* ── FOOTER ── */
+  footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer .foot-brand {
+    font-family: var(--display);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--dim);
+  }
+
+  footer .foot-brand span { color: var(--accent); }
+
+  footer p {
+    font-size: 12px;
+    color: var(--dim);
+  }
+
+  /* ── DIVIDER ── */
+  .divider {
+    width: 40px;
+    height: 2px;
+    background: var(--accent);
+    margin-bottom: 20px;
+    border-radius: 2px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 700px) {
+    .page { padding: 40px 24px 60px; }
+    header { flex-direction: column; gap: 20px; }
+    .meta { align-items: flex-start; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .process-steps::before { display: none; }
+    .why-grid { grid-template-columns: 1fr; }
+    .cta { flex-direction: column; }
+    .cta-actions { align-items: flex-start; }
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { background: #fff; color: #111; }
+    .page { padding: 20px; }
+    .service-card, .why-item, .cta { border-color: #ddd; background: #fafafa; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand">
+      <div class="logo">Dev<span>Loop</span></div>
+      <div class="tagline">Where ambition gets a website.</div>
+    </div>
+    <div class="meta">
+      <div class="badge">
+        <div class="badge-dot"></div>
+        Available for new projects
+      </div>
+      <div class="meta-location">Dublin, Ireland &nbsp;·&nbsp; devloop.agency</div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>We build digital<br>experiences that <em>mean business.</em></h1>
+    <p>
+      DevLoop is a digital studio specialising in high-performance websites, landing pages,
+      and custom web systems for ambitious businesses across Europe.
+      Fast delivery. Sharp design. Real results.
+    </p>
+  </section>
+
+  <!-- SERVICES -->
+  <section class="services">
+    <div class="section-label">What we build</div>
+    <div class="services-grid">
+
+      <div class="service-card">
+        <div class="svc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18"/>
+          </svg>
+        </div>
+        <div class="svc-type">Landing Page</div>
+        <div class="svc-name">One page. One goal. Maximum impact.</div>
+        <div class="svc-desc">A focused, high-converting single page built to present your offer and drive action — launched fast.</div>
+        <div class="svc-price">Starting from <strong>€299</strong></div>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="svc-type">Websites</div>
+        <div class="svc-name">Digital presence that means business.</div>
+        <div class="svc-desc">Your website is your first impression, your sales team, and your proof of concept — all at once.</div>
+        <div class="svc-price">Starting from <strong>€900</strong></div>
+      </div>
+
+      <div class="service-card">
+        <div class="svc-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <path d="M3 9h18M9 21V9"/>
+          </svg>
+        </div>
+        <div class="svc-type">Web Systems</div>
+        <div class="svc-name">Tools that make your business run better.</div>
+        <div class="svc-desc">Custom systems that automate the repetitive, surface what matters, and give you back your time.</div>
+        <div class="svc-price">Starting from <strong>€2,500</strong></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section class="process">
+    <div class="section-label">How we work</div>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Brief</div>
+        <div class="step-desc">We understand your business, goals, and audience before touching any design.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Design</div>
+        <div class="step-desc">Sharp visuals aligned to your brand, crafted to convert and impress.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Build</div>
+        <div class="step-desc">Clean, fast, production-ready code — no templates, no shortcuts.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Launch</div>
+        <div class="step-desc">Live within days. Ongoing support available from day one.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY DEVLOOP -->
+  <section class="why">
+    <div class="section-label">Why DevLoop</div>
+    <div class="why-grid">
+      <div class="why-item">
+        <span class="why-icon">⚡</span>
+        <div class="why-title">Fast delivery</div>
+        <div class="why-desc">Most projects go live in 7–14 days. No bloated timelines, no waiting months to see results.</div>
+      </div>
+      <div class="why-item">
+        <span class="why-icon">◆</span>
+        <div class="why-title">Custom, not templated</div>
+        <div class="why-desc">Every project is built from scratch. Your business is unique — your website should be too.</div>
+      </div>
+      <div class="why-item">
+        <span class="why-icon">→</span>
+        <div class="why-title">Results-first</div>
+        <div class="why-desc">We measure success by what the site does for your business, not just how it looks.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-copy">
+      <h2>Ready to build something<br><em>you're proud of?</em></h2>
+      <p>Let's talk about your project — no commitment, no fluff.</p>
+    </div>
+    <div class="cta-actions">
+      <a class="btn-primary" href="https://devloop.agency" target="_blank">
+        Visit devloop.agency
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7M7 7h10v10"/></svg>
+      </a>
+      <div class="cta-contact">
+        Or reach out directly at<br>
+        <a href="mailto:hello@devloop.agency">hello@devloop.agency</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="foot-brand">Dev<span>Loop</span></div>
+    <p>Digital studio · Dublin, Ireland · devloop.agency</p>
+  </footer>
+
+</div>
+
+</body>
+</html>

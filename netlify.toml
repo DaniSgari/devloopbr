@@ -1,0 +1,108 @@
+[build]
+  publish = "."
+  functions = "netlify/functions"
+  edge_functions = "netlify/edge-functions"
+
+# Block WordPress scanners
+[[redirects]]
+  from = "/wp-admin/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/wp-login.php"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/wp-includes/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/wp-content/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/xmlrpc.php"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/*/xmlrpc.php"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/*/wlwmanifest.xml"
+  to = "/index.html"
+  status = 404
+
+# Block credential/config scanners
+[[redirects]]
+  from = "/.aws/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/.env"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/.git/*"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/config.php"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/phpinfo.php"
+  to = "/index.html"
+  status = 404
+
+[[redirects]]
+  from = "/admin/*"
+  to = "/index.html"
+  status = 404
+
+# Favicon at root for Google Search Console
+[[redirects]]
+  from = "/favicon.ico"
+  to = "/Brand/favicons/favicon.ico"
+  status = 200
+
+# Legitimate routes
+[[redirects]]
+  from = "/briefing"
+  to = "/briefing.html"
+  status = 200
+
+[[redirects]]
+  from = "https://briefing.devloop.agency"
+  to = "/briefing.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/outreach"
+  to = "/outreach.html"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    X-XSS-Protection = "1; mode=block"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"

@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Outreach — DevLoop</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: #0A0A0A;
+    color: #F5F5F0;
+    min-height: 100vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 32px 20px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .card {
+    background: #141414;
+    border: 1px solid #222;
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 920px;
+  }
+
+  .logo { margin-bottom: 32px; }
+  .logo span:first-child { font-size: 20px; font-weight: 900; color: #FF4D00; letter-spacing: -0.5px; }
+  .logo span:last-child  { font-size: 20px; font-weight: 900; color: #F5F5F0; letter-spacing: -0.5px; }
+
+  h1 { font-size: 20px; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 6px; }
+
+  .subtitle { font-size: 13px; color: #555; margin-bottom: 28px; line-height: 1.6; }
+
+  .divider { border: none; border-top: 1px solid #1E1E1E; margin: 22px 0; }
+
+  .field { margin-bottom: 16px; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    color: #666;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  textarea {
+    width: 100%;
+    background: #0A0A0A;
+    border: 1.5px solid #222;
+    border-radius: 8px;
+    padding: 11px 13px;
+    font-family: inherit;
+    font-size: 14px;
+    color: #F5F5F0;
+    outline: none;
+    transition: border-color .2s;
+  }
+
+  input:focus, textarea:focus { border-color: #FF4D00; }
+  input::placeholder, textarea::placeholder { color: #2E2E2E; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+
+  /* TEMPLATE CARDS */
+  .template-grid { display: flex; flex-direction: column; gap: 7px; }
+
+  .template-card {
+    background: #0A0A0A;
+    border: 1.5px solid #222;
+    border-radius: 8px;
+    padding: 11px 14px;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    user-select: none;
+  }
+
+  .template-card:hover { border-color: #333; }
+
+  .template-card.active {
+    border-color: #FF4D00;
+    background: rgba(255,77,0,0.05);
+  }
+
+  .template-card-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #888;
+    margin-bottom: 1px;
+    transition: color .15s;
+  }
+
+  .template-card.active .template-card-title { color: #FF4D00; }
+
+  .template-card-desc { font-size: 12px; color: #444; }
+
+  /* BUTTON */
+  .btn {
+    width: 100%;
+    background: #FF4D00;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 13px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 6px;
+    transition: background .2s, transform .15s;
+    letter-spacing: 0.2px;
+  }
+
+  .btn:hover { background: #e64400; }
+  .btn:active { transform: scale(0.98); }
+  .btn:disabled { background: #222; color: #555; cursor: not-allowed; }
+
+  .error-msg   { font-size: 12px; color: #e53935; margin-top: 10px; display: none; }
+  .success-msg { font-size: 13px; color: #4CAF50; margin-top: 10px; display: none; line-height: 1.6; }
+
+  .duplicate-warn {
+    display: none;
+    margin-top: 12px;
+    background: rgba(255, 193, 7, 0.07);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .duplicate-warn p {
+    font-size: 13px;
+    color: #ccc;
+    line-height: 1.6;
+    margin: 0 0 12px 0;
+  }
+  .duplicate-warn p strong { color: #FFC107; }
+  .duplicate-btns { display: flex; gap: 8px; }
+  .btn-warn {
+    flex: 1;
+    padding: 9px;
+    border-radius: 7px;
+    border: none;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: opacity .15s;
+  }
+  .btn-warn:hover { opacity: .85; }
+  .btn-warn.confirm { background: #FFC107; color: #000; }
+  .btn-warn.cancel  { background: #222; color: #888; }
+
+  .tag {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #FF4D00;
+    background: rgba(255,77,0,0.1);
+    border: 1px solid rgba(255,77,0,0.2);
+    border-radius: 100px;
+    padding: 3px 10px;
+    margin-bottom: 16px;
+  }
+
+  .obs-required {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: #FF4D00;
+    border-radius: 50%;
+    margin-left: 5px;
+    vertical-align: middle;
+    opacity: 0;
+    transition: opacity .2s;
+  }
+  .obs-required.visible { opacity: 1; }
+
+  .sent-list { margin-top: 20px; border-top: 1px solid #1E1E1E; padding-top: 18px; }
+  .sent-list h3 { font-size: 10px; font-weight: 700; color: #444; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+  .sent-item { font-size: 12px; color: #555; padding: 7px 0; border-bottom: 1px solid #1A1A1A; display: flex; justify-content: space-between; gap: 8px; }
+  .sent-item span:first-child { color: #777; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sent-item .sent-tag { font-size: 10px; color: #FF4D00; font-weight: 700; flex-shrink: 0; }
+
+  /* LOCK SCREEN */
+  #lock-screen { display: block; }
+  .lock-inner { max-width: 400px; }
+
+  /* SEND LAYOUT — two columns */
+  #send-layout {
+    display: none;
+    grid-template-columns: 380px 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  #send-layout.visible { display: grid; }
+
+  @media (max-width: 720px) {
+    #send-layout.visible { grid-template-columns: 1fr; }
+    .preview-col { display: none; }
+  }
+
+  /* PREVIEW COLUMN */
+  .preview-col {
+    position: sticky;
+    top: 32px;
+  }
+
+  .preview-col-label {
+    font-size: 10px;
+    font-weight: 700;
+    color: #444;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .preview-box {
+    background: #0F0F0F;
+    border: 1.5px solid #1E1E1E;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .preview-meta {
+    padding: 12px 16px;
+    border-bottom: 1px solid #1A1A1A;
+  }
+
+  .preview-meta-row {
+    display: flex;
+    gap: 10px;
+    font-size: 12px;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+
+  .preview-meta-row:last-child { margin-bottom: 0; }
+
+  .preview-meta-key {
+    color: #3A3A3A;
+    width: 52px;
+    flex-shrink: 0;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+
+  .preview-meta-value { color: #666; }
+
+  #preview-subject { color: #999; font-weight: 600; }
+
+  .preview-body-area {
+    padding: 18px 16px;
+    font-size: 13px;
+    color: #666;
+    line-height: 1.85;
+    white-space: pre-wrap;
+    font-family: inherit;
+    min-height: 220px;
+  }
+
+  .preview-empty {
+    color: #2A2A2A;
+    font-style: italic;
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo"><span>dev</span><span>LOOP</span></div>
+
+  <!-- LOCK SCREEN -->
+  <div id="lock-screen">
+    <div class="lock-inner">
+      <h1>Internal access</h1>
+      <p class="subtitle">Enter your password to access the outreach tool.</p>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="password-input" placeholder="••••••••" autocomplete="current-password">
+      </div>
+      <button class="btn" id="unlock-btn">Unlock</button>
+      <div class="error-msg" id="lock-error">Incorrect password. Try again.</div>
+    </div>
+  </div>
+
+  <!-- SEND LAYOUT -->
+  <div id="send-layout">
+
+    <!-- FORM COLUMN -->
+    <div class="form-col">
+      <div class="tag">Outreach v3</div>
+      <h1>Send cold email</h1>
+      <p class="subtitle">Fill in the details and send. Email goes out via Resend and is logged in Notion.</p>
+
+      <hr class="divider">
+
+      <!-- TEMPLATE SELECTOR -->
+      <div class="field">
+        <label>Template</label>
+        <div class="template-grid">
+          <div class="template-card active" data-template="no-website">
+            <div class="template-card-title">No website</div>
+            <div class="template-card-desc">They don't have a website yet</div>
+          </div>
+          <div class="template-card" data-template="quick-wins">
+            <div class="template-card-title">Quick wins</div>
+            <div class="template-card-desc">Has a site, needs improvements</div>
+          </div>
+          <div class="template-card" data-template="big-upgrade">
+            <div class="template-card-title">Big upgrade</div>
+            <div class="template-card-desc">Has a site, needs major overhaul</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+
+      <div class="field">
+        <label>Recipient name</label>
+        <input type="text" id="f-name" placeholder="Sarah Johnson">
+      </div>
+
+      <div class="field">
+        <label>Business / Practice name</label>
+        <input type="text" id="f-company" placeholder="Johnson Legal">
+      </div>
+
+      <!-- City — only for no-website -->
+      <div id="city-field" class="field">
+        <label>City</label>
+        <input type="text" id="f-city" placeholder="Manchester">
+      </div>
+
+      <!-- Type/Specialty — for no-website and quick-wins -->
+      <div id="type-field" class="field">
+        <label id="type-label">Type / Specialty</label>
+        <input type="text" id="f-category" placeholder="solicitor">
+      </div>
+
+      <div class="field">
+        <label>What you noticed <span class="obs-required" id="obs-required-dot"></span></label>
+        <textarea id="f-observation" placeholder="e.g. Your Google listing shows up but clicking through doesn't show much about your practice areas."></textarea>
+      </div>
+
+      <div class="field">
+        <label>Recipient email</label>
+        <input type="email" id="f-email" placeholder="sarah@johnsonlegal.co.uk">
+      </div>
+
+      <button class="btn" id="send-btn">Send email</button>
+      <div class="error-msg" id="send-error"></div>
+      <div class="success-msg" id="send-success"></div>
+
+      <div class="duplicate-warn" id="duplicate-warn">
+        <p id="duplicate-msg"></p>
+        <div class="duplicate-btns">
+          <button class="btn-warn confirm" id="duplicate-confirm">Send anyway</button>
+          <button class="btn-warn cancel"  id="duplicate-cancel">Cancel</button>
+        </div>
+      </div>
+
+      <div class="sent-list" id="sent-list" style="display:none">
+        <h3>Sent this session</h3>
+        <div id="sent-items"></div>
+      </div>
+    </div>
+
+    <!-- PREVIEW COLUMN -->
+    <div class="preview-col">
+      <div class="preview-col-label">Preview</div>
+      <div class="preview-box">
+        <div class="preview-meta">
+          <div class="preview-meta-row">
+            <span class="preview-meta-key">From</span>
+            <span class="preview-meta-value">hello@devloop.agency</span>
+          </div>
+          <div class="preview-meta-row">
+            <span class="preview-meta-key">Subject</span>
+            <span class="preview-meta-value" id="preview-subject"></span>
+          </div>
+        </div>
+        <div class="preview-body-area" id="preview-body">
+          <span class="preview-empty">Fill in the form to see the email preview.</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  /* ── LOCK ── */
+  const passwordInput = document.getElementById('password-input');
+  const unlockBtn     = document.getElementById('unlock-btn');
+  const lockError     = document.getElementById('lock-error');
+  const lockScreen    = document.getElementById('lock-screen');
+  const sendLayout    = document.getElementById('send-layout');
+  let sessionPassword = '';
+
+  function tryUnlock() {
+    const pw = passwordInput.value.trim();
+    if (!pw) return;
+    sessionPassword = pw;
+    lockScreen.style.display = 'none';
+    sendLayout.classList.add('visible');
+    lockError.style.display  = 'none';
+    updatePreview();
+  }
+
+  unlockBtn.addEventListener('click', tryUnlock);
+  passwordInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryUnlock(); });
+
+  /* ── TEMPLATE CONFIG ── */
+  const obsPlaceholders = {
+    'no-website':  "e.g. Your Google listing shows up but there's no site for people to land on when they search.",
+    'quick-wins':  "e.g. The mobile homepage is hard to read and there's no clear way to book a consultation.",
+    'big-upgrade': "e.g. The contact form is buried and there's nothing explaining how someone would start working with you. (required)",
+  };
+
+  const templateLabels = {
+    'no-website':  'No website',
+    'quick-wins':  'Quick wins',
+    'big-upgrade': 'Big upgrade',
+  };
+
+  let selectedTemplate = 'no-website';
+  const observationEl  = document.getElementById('f-observation');
+  const obsRequiredDot = document.getElementById('obs-required-dot');
+  const cityField      = document.getElementById('city-field');
+  const typeField      = document.getElementById('type-field');
+  const typeLabel      = document.getElementById('type-label');
+  const categoryInput  = document.getElementById('f-category');
+
+  function applyTemplate(t) {
+    selectedTemplate = t;
+    observationEl.placeholder = obsPlaceholders[t];
+    obsRequiredDot.classList.toggle('visible', t === 'big-upgrade');
+
+    if (t === 'no-website') {
+      cityField.style.display  = 'block';
+      typeField.style.display  = 'block';
+      typeLabel.textContent    = 'Type / Specialty';
+      categoryInput.placeholder = 'solicitor, beauty salon, physiotherapist...';
+    } else if (t === 'quick-wins') {
+      cityField.style.display  = 'none';
+      typeField.style.display  = 'block';
+      typeLabel.textContent    = 'Professional type';
+      categoryInput.placeholder = 'lawyer, psychologist, nutritionist...';
+    } else {
+      cityField.style.display  = 'none';
+      typeField.style.display  = 'none';
+    }
+
+    updatePreview();
+  }
+
+  document.querySelectorAll('.template-card').forEach(card => {
+    card.addEventListener('click', () => {
+      document.querySelectorAll('.template-card').forEach(c => c.classList.remove('active'));
+      card.classList.add('active');
+      applyTemplate(card.dataset.template);
+    });
+  });
+
+  applyTemplate('no-website');
+
+  /* ── LIVE PREVIEW ── */
+  function updatePreview() {
+    const name        = document.getElementById('f-name').value.trim();
+    const company     = document.getElementById('f-company').value.trim();
+    const city        = document.getElementById('f-city').value.trim();
+    const category    = document.getElementById('f-category').value.trim();
+    const observation = document.getElementById('f-observation').value.trim();
+
+    const displayName    = name    || '[Name]';
+    const displayCompany = company || '[Business]';
+    const firstName      = displayName.split(' ')[0];
+
+    let subject = '';
+    let lines   = [];
+
+    if (selectedTemplate === 'no-website') {
+      subject = `${firstName}, quick question`;
+
+      lines.push(`Hi ${firstName},`);
+      lines.push('');
+      lines.push(`I came across ${displayCompany} and noticed you don't have a website.`);
+
+      if (observation) { lines.push(''); lines.push(observation); }
+
+      lines.push('');
+      if (city && category) {
+        lines.push(`When someone searches for a ${category} in ${city}, they're not finding you. That's potential clients going to whoever does show up.`);
+      } else if (city) {
+        lines.push(`When someone searches your name in ${city}, they're not finding you. That's potential clients going to whoever does show up.`);
+      } else {
+        lines.push(`When someone searches your name online, they're not finding you. That's potential clients going to whoever does show up.`);
+      }
+
+      lines.push('');
+      lines.push(`Happy to put a quick mock-up together for ${displayCompany} at no cost. No call needed, just reply if you'd like to see it.`);
+
+    } else if (selectedTemplate === 'quick-wins') {
+      subject = `${displayCompany} - noticed a few things`;
+      const profType = category || 'professional';
+
+      lines.push(`Hi ${firstName},`);
+      lines.push('');
+      lines.push(`I had a look at ${displayCompany}'s website.`);
+
+      if (observation) { lines.push(''); lines.push(observation); }
+
+      lines.push('');
+      lines.push(`For a ${profType} with your experience, a few changes would make a real difference to how clients perceive you before they even make contact.`);
+      lines.push('');
+      lines.push(`Happy to send a short written breakdown, no pitch, just honest observations.`);
+      lines.push('');
+      lines.push(`Worth a look?`);
+
+    } else {
+      subject = `${displayCompany} - honest feedback on your site`;
+
+      lines.push(`Hi ${firstName},`);
+      lines.push('');
+      lines.push(`I spent some time on ${displayCompany}'s website.${observation ? ' ' + observation : ''}`);
+      lines.push('');
+      lines.push(`For someone at your level, the site isn't reflecting what you actually offer.`);
+      lines.push('');
+      lines.push(`Want me to send a short written breakdown of what I'd change? No call, no commitment.`);
+    }
+
+    lines.push('');
+    lines.push('Danielle');
+    lines.push('DevLoop | hello@devloop.agency');
+
+    document.getElementById('preview-subject').textContent = subject;
+
+    const bodyEl = document.getElementById('preview-body');
+    bodyEl.innerHTML = '';
+    bodyEl.textContent = lines.join('\n');
+  }
+
+  ['f-name','f-company','f-city','f-category','f-observation'].forEach(id => {
+    document.getElementById(id).addEventListener('input', updatePreview);
+  });
+
+  /* ── SEND ── */
+  const sendBtn       = document.getElementById('send-btn');
+  const sendError     = document.getElementById('send-error');
+  const sendSuccess   = document.getElementById('send-success');
+  const sentList      = document.getElementById('sent-list');
+  const sentItems     = document.getElementById('sent-items');
+  const duplicateWarn = document.getElementById('duplicate-warn');
+  const duplicateMsg  = document.getElementById('duplicate-msg');
+
+  async function doSend(force = false) {
+    const name        = document.getElementById('f-name').value.trim();
+    const company     = document.getElementById('f-company').value.trim();
+    const city        = document.getElementById('f-city').value.trim();
+    const category    = document.getElementById('f-category').value.trim();
+    const email       = document.getElementById('f-email').value.trim();
+    const observation = observationEl.value.trim();
+
+    sendError.style.display     = 'none';
+    sendSuccess.style.display   = 'none';
+    duplicateWarn.style.display = 'none';
+
+    if (!name || !email) {
+      sendError.textContent   = 'Name and email are required.';
+      sendError.style.display = 'block';
+      return;
+    }
+
+    if (selectedTemplate === 'big-upgrade' && !observation) {
+      sendError.textContent   = 'Add what you noticed — it\'s required for this template.';
+      sendError.style.display = 'block';
+      observationEl.focus();
+      return;
+    }
+
+    sendBtn.disabled    = true;
+    sendBtn.textContent = 'Sending...';
+
+    try {
+      const res = await fetch('/.netlify/functions/send-outreach', {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ password: sessionPassword, template: selectedTemplate, name, company, city, category, email, observation, force }),
+      });
+
+      const json = await res.json();
+
+      if (res.status === 401) {
+        sendLayout.classList.remove('visible');
+        lockScreen.style.display = 'block';
+        lockError.textContent    = 'Session expired or incorrect password.';
+        lockError.style.display  = 'block';
+        passwordInput.value      = '';
+        return;
+      }
+
+      if (res.status === 409) {
+        const prevDate     = json.date     ? `on ${json.date}`                       : 'previously';
+        const prevTemplate = json.template ? ` (${json.template})`                   : '';
+        const prevCompany  = json.company  ? ` for <strong>${json.company}</strong>` : '';
+        duplicateMsg.innerHTML      = `You already contacted <strong>${email}</strong>${prevCompany} ${prevDate}${prevTemplate}. Send again?`;
+        duplicateWarn.style.display = 'block';
+        return;
+      }
+
+      if (!res.ok) {
+        sendError.textContent   = (json.error || 'Something went wrong.') + (json.detail ? ' - ' + json.detail : '');
+        sendError.style.display = 'block';
+        return;
+      }
+
+      sendSuccess.textContent   = `Email sent to ${email}`;
+      sendSuccess.style.display = 'block';
+
+      const item = document.createElement('div');
+      item.className = 'sent-item';
+      item.innerHTML = `<span>${name} / ${company || '?'} &lt;${email}&gt;</span><span class="sent-tag">${templateLabels[selectedTemplate]}</span>`;
+      sentItems.prepend(item);
+      sentList.style.display = 'block';
+
+      document.getElementById('f-name').value     = '';
+      document.getElementById('f-company').value  = '';
+      document.getElementById('f-city').value     = '';
+      document.getElementById('f-category').value = '';
+      document.getElementById('f-email').value    = '';
+      observationEl.value = '';
+      updatePreview();
+
+    } catch {
+      sendError.textContent   = 'Connection error. Check your internet and try again.';
+      sendError.style.display = 'block';
+    } finally {
+      sendBtn.disabled    = false;
+      sendBtn.textContent = 'Send email';
+    }
+  }
+
+  sendBtn.addEventListener('click', () => doSend(false));
+
+  document.getElementById('duplicate-confirm').addEventListener('click', () => {
+    duplicateWarn.style.display = 'none';
+    doSend(true);
+  });
+
+  document.getElementById('duplicate-cancel').addEventListener('click', () => {
+    duplicateWarn.style.display = 'none';
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Project Briefing — DevLoop</title>
+<meta name="description" content="Tell us about your project. Fill out this briefing form and we'll come back with a tailored proposal.">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --accent: #FF4D00;
+    --accent-hover: #e64400;
+    --bg: #F7F7F5;
+    --white: #ffffff;
+    --text: #111111;
+    --text-secondary: #555555;
+    --text-hint: #999999;
+    --border: #E0E0E0;
+    --border-focus: #FF4D00;
+    --radius: 10px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* NAV */
+  nav {
+    background: #0A0A0A;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-logo {
+    font-size: 18px;
+    font-weight: 800;
+    text-decoration: none;
+    letter-spacing: -0.3px;
+  }
+
+  .nav-logo span:first-child { color: var(--accent); }
+  .nav-logo span:last-child  { color: #F5F5F0; }
+
+  .nav-back {
+    font-size: 13px;
+    color: #888;
+    text-decoration: none;
+    transition: color .2s;
+  }
+
+  .nav-back:hover { color: #fff; }
+
+  /* HERO */
+  .hero {
+    background: #0A0A0A;
+    padding: 64px 32px 72px;
+    text-align: center;
+  }
+
+  .hero-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: rgba(255,77,0,0.12);
+    border: 1px solid rgba(255,77,0,0.25);
+    border-radius: 100px;
+    padding: 5px 14px;
+    margin-bottom: 20px;
+  }
+
+  .hero h1 {
+    font-size: clamp(28px, 5vw, 44px);
+    font-weight: 800;
+    color: #F5F5F0;
+    letter-spacing: -1px;
+    line-height: 1.15;
+    margin-bottom: 16px;
+  }
+
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero p {
+    color: #888;
+    font-size: 15px;
+    max-width: 480px;
+    margin: 0 auto;
+    line-height: 1.7;
+  }
+
+  /* PROGRESS */
+  .progress-bar {
+    background: #0A0A0A;
+    padding: 0 32px 28px;
+  }
+
+  .progress-track {
+    max-width: 720px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.08);
+    border-radius: 100px;
+    height: 3px;
+  }
+
+  .progress-fill {
+    height: 3px;
+    background: var(--accent);
+    border-radius: 100px;
+    width: 0%;
+    transition: width .4s ease;
+  }
+
+  /* MAIN */
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+
+  /* SECTION CARD */
+  .form-section {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 36px;
+    margin-bottom: 20px;
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #F0F0F0;
+  }
+
+  .section-num {
+    width: 32px;
+    height: 32px;
+    background: var(--accent);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 800;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .section-title {
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+  }
+
+  /* FIELD */
+  .field {
+    margin-bottom: 24px;
+  }
+
+  .field:last-child { margin-bottom: 0; }
+
+  .field label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+
+  .field label .req {
+    color: var(--accent);
+    margin-left: 2px;
+  }
+
+  .field-hint {
+    font-size: 12px;
+    color: var(--text-hint);
+    margin-bottom: 8px;
+    font-style: italic;
+  }
+
+  .field input[type="text"],
+  .field input[type="email"],
+  .field input[type="url"],
+  .field textarea {
+    width: 100%;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text);
+    background: #FAFAFA;
+    transition: border-color .2s, box-shadow .2s, background .2s;
+    outline: none;
+    resize: vertical;
+  }
+
+  .field input:focus,
+  .field textarea:focus {
+    border-color: var(--border-focus);
+    background: #fff;
+    box-shadow: 0 0 0 3px rgba(255,77,0,0.1);
+  }
+
+  .field input::placeholder,
+  .field textarea::placeholder { color: var(--text-hint); }
+
+  .field textarea { min-height: 100px; line-height: 1.6; }
+
+  /* GRID */
+  .field-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  /* CHOICES */
+  .choices {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .choices.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .choice-item {
+    position: relative;
+  }
+
+  .choice-item input[type="radio"],
+  .choice-item input[type="checkbox"] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .choice-item label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 400;
+    color: #333;
+    background: #FAFAFA;
+    transition: border-color .15s, background .15s, color .15s;
+    user-select: none;
+  }
+
+  .choice-item label::before {
+    content: '';
+    width: 18px;
+    height: 18px;
+    border: 2px solid #CCC;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: border-color .15s, background .15s;
+  }
+
+  .choice-item input[type="checkbox"] + label::before {
+    border-radius: 5px;
+  }
+
+  .choice-item input:checked + label {
+    border-color: var(--accent);
+    background: rgba(255,77,0,0.05);
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  .choice-item input:checked + label::before {
+    border-color: var(--accent);
+    background: var(--accent);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 10'%3E%3Cpath d='M2 5l2.5 2.5L8 3' stroke='white' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-size: 70%;
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* BUDGET OPTIONS */
+  .budget-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+  }
+
+  /* SCALE */
+  .scale-wrap { display: flex; flex-direction: column; gap: 8px; }
+
+  .scale-options {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+  }
+
+  .scale-item { position: relative; }
+
+  .scale-item input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+  .scale-item label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 44px;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 15px;
+    font-weight: 700;
+    color: #888;
+    cursor: pointer;
+    background: #FAFAFA;
+    transition: all .15s;
+  }
+
+  .scale-item input:checked + label {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: #fff;
+  }
+
+  .scale-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-hint);
+    padding: 0 2px;
+  }
+
+  /* UPLOAD ZONE */
+  .upload-zone {
+    border: 2px dashed var(--border);
+    border-radius: var(--radius);
+    background: #FAFAFA;
+    transition: border-color .2s, background .2s;
+    overflow: hidden;
+  }
+
+  .upload-zone.drag-over {
+    border-color: var(--accent);
+    background: rgba(255,77,0,0.04);
+  }
+
+  .upload-inner {
+    padding: 32px 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .upload-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+    line-height: 1;
+  }
+
+  .upload-text {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .upload-sub {
+    font-size: 13px;
+    color: var(--text-hint);
+    margin-bottom: 10px;
+  }
+
+  .upload-browse {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .upload-formats {
+    font-size: 11px;
+    color: #CCC;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .upload-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 0 16px 16px;
+  }
+
+  .upload-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 14px;
+  }
+
+  .upload-item-thumb {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .upload-item-icon {
+    width: 40px;
+    height: 40px;
+    background: #F0F0F0;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .upload-item-info { flex: 1; min-width: 0; }
+
+  .upload-item-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .upload-item-size {
+    font-size: 11px;
+    color: var(--text-hint);
+    margin-top: 2px;
+  }
+
+  .upload-remove {
+    background: none;
+    border: none;
+    color: #CCC;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    padding: 0 2px;
+    transition: color .15s;
+    flex-shrink: 0;
+  }
+
+  .upload-remove:hover { color: #e53935; }
+
+  .upload-count {
+    font-size: 12px;
+    color: var(--text-hint);
+    margin-top: 8px;
+  }
+
+  /* SUBMIT AREA */
+  .submit-area {
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 36px;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .submit-area p {
+    font-size: 13.5px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+    line-height: 1.7;
+  }
+
+  .btn-submit {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #fff;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    border: none;
+    border-radius: 10px;
+    padding: 14px 32px;
+    cursor: pointer;
+    transition: background .2s, transform .15s;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .btn-submit:hover { background: var(--accent-hover); }
+  .btn-submit:active { transform: scale(0.98); }
+  .btn-submit:disabled { background: #ccc; cursor: not-allowed; }
+
+  /* SUCCESS */
+  #success {
+    display: none;
+    background: var(--white);
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    padding: 64px 36px;
+    text-align: center;
+    margin-top: 40px;
+  }
+
+  .success-icon {
+    width: 64px;
+    height: 64px;
+    background: rgba(255,77,0,0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-size: 28px;
+  }
+
+  #success h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 12px;
+    letter-spacing: -0.3px;
+  }
+
+  #success p {
+    font-size: 14px;
+    color: var(--text-secondary);
+    max-width: 400px;
+    margin: 0 auto 28px;
+    line-height: 1.7;
+  }
+
+  #success a {
+    color: var(--accent);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 14px;
+  }
+
+  /* ERROR */
+  .field-error {
+    font-size: 12px;
+    color: #e53935;
+    margin-top: 5px;
+    display: none;
+  }
+
+  .field.has-error input,
+  .field.has-error textarea {
+    border-color: #e53935;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 24px 20px 48px;
+    font-size: 12px;
+    color: #bbb;
+  }
+
+  footer a { color: #bbb; text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    nav { padding: 16px 20px; }
+    .hero { padding: 48px 20px 56px; }
+    .progress-bar { padding: 0 20px 24px; }
+    .form-section { padding: 24px 20px; }
+    .field-grid-2 { grid-template-columns: 1fr; }
+    .choices.grid-2 { grid-template-columns: 1fr; }
+    .budget-grid { grid-template-columns: 1fr 1fr; }
+    .scale-options { gap: 4px; }
+    .submit-area { padding: 28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo"><span>dev</span><span>LOOP</span></a>
+  <a href="/" class="nav-back">← Back to site</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">New Project</div>
+  <h1>Tell us about your <em>project.</em></h1>
+  <p>Fill this out as completely as you can. We'll review your answers and come back with a tailored proposal within 48 hours.</p>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar">
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
+
+<!-- MAIN FORM -->
+<main>
+<form id="briefing-form" novalidate>
+
+  <!-- Section 1: Your Details -->
+  <div class="form-section">
+    <div class="section-header">
+      <div class="section-num">1</div>
+      <div class="section-title">Your Details</div>
+    </div>
+
+    <div class="field-grid-2">
+      <div class="field" id="field-name">
+        <label for="b-name">Your name <span class="req">*</span></label>
+        <input type="text" id="b-name" name="name" placeholder="John Smith" autocomplete="name" required>
+        <div class="field-error">Please enter your name.</div>
+      </div>
+      <div class="field" id="field-business">
+        <label for="b-business">Business or company name <span class="req">*</span></label>
+        <input type="text" id="b-business" name="business" placeholder="Acme Studio" required>
+        <div class="field-error">Please enter your business name.</div>
+      </div>
+    </div>
+
+    <div class="field-grid-2">
+      <div class="field" id="field-email">
+        <label for="b-email">Email address <span class="req">*</span></label>
+        <input type="email" id="b-email" name="email" placeholder="john@acme.com" autocomplete="email" required>
+        <div class="field-error">Please enter a valid email.</div>
+      </div>
+      <div class="field">
+        <label for="b-website">Current website (if any)</label>
+        <input type="text" id="b-website" name="website" placeholder="https://acme.com">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="b-industry">Industry or niche</label>
+      <input type="text" id="b-industry" name="industry" placeholder="E.g. restaurant, consultancy, e-commerce, fitness…">
+    </div>
+  </div>
+
+  <!-- Section 2: About Your Business -->
+  <div class="form-section">
+    <div class="section-header">
+      <div class="section-num">2</div>
+      <div class="section-title">About Your Business</div>
+    </div>
+
+    <div class="field" id="field-what">
+      <label for="b-what">What does your business do? What problem do you solve? <span class="req">*</span></label>
+      <textarea id="b-what" name="what" placeholder="Tell us what you do and who you help…" required></textarea>
+      <div class="field-error">Please describe your business.</div>
+    </div>
+
+    <div class="field" id="field-audience">
+      <label for="b-audience">Who is your target audience? <span class="req">*</span></label>
+      <div class="field-hint">Age, location, profession, what they care about…</div>
+      <textarea id="b-audience" name="audience" placeholder="E.g. small business owners in Europe aged 30–50 who want to grow online…" required></textarea>
+      <div class="field-error">Please describe your target audience.</div>
+    </div>
+
+    <div class="field">
+      <label for="b-competitors">List 1–3 competitors (optional)</label>
+      <textarea id="b-competitors" name="competitors" placeholder="Just their names or website URLs…" style="min-height:72px"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 3: The Project -->
+  <div class="form-section">
+    <div class="section-header">
+      <div class="section-num">3</div>
+      <div class="section-title">The Project</div>
+    </div>
+
+    <div class="field" id="field-type">
+      <label>What are you looking to build? <span class="req">*</span></label>
+      <div class="choices">
+        <div class="choice-item"><input type="radio" name="project_type" id="pt1" value="Landing page" required><label for="pt1">Landing page</label></div>
+        <div class="choice-item"><input type="radio" name="project_type" id="pt2" value="Multi-page website"><label for="pt2">Multi-page website</label></div>
+        <div class="choice-item"><input type="radio" name="project_type" id="pt3" value="E-commerce store"><label for="pt3">E-commerce store</label></div>
+        <div class="choice-item"><input type="radio" name="project_type" id="pt4" value="Web application / platform"><label for="pt4">Web application / platform</label></div>
+        <div class="choice-item"><input type="radio" name="project_type" id="pt5" value="Redesign of an existing site"><label for="pt5">Redesign of an existing site</label></div>
+        <div class="choice-item"><input type="radio" name="project_type" id="pt6" value="Not sure yet — I need guidance"><label for="pt6">Not sure yet — I need guidance</label></div>
+      </div>
+      <div class="field-error">Please select an option.</div>
+    </div>
+
+    <div class="field">
+      <label>Which pages do you need? (select all that apply)</label>
+      <div class="choices grid-2">
+        <div class="choice-item"><input type="checkbox" name="pages" id="pg1" value="Homepage"><label for="pg1">Homepage</label></div>
+        <div class="choice-item"><input type="checkbox" name="pages" id="pg2" value="About"><label for="pg2">About</label></div>
+        <div class="choice-item"><input type="checkbox" name="pages" id="pg3" value="Services / Products"><label for="pg3">Services / Products</label></div>
+        <div class="choice-item"><input type="checkbox" name="pages" id="pg4" value="Portfolio / Work"><label for="pg4">Portfolio / Work</label></div>
+        <div class="choice-item"><input type="checkbox" name="pages" id="pg5" value="Blog"><label for="pg5">Blog</label></div>
+        <div class="choice-item"><input type="checkbox" name="pages" id="pg6" value="Pricing"><label for="pg6">Pricing</label></div>
+        <div class="choice-item"><input type="checkbox" name="pages" id="pg7" value="FAQ"><label for="pg7">FAQ</label></div>
+        <div class="choice-item"><input type="checkbox" name="pages" id="pg8" value="Contact"><label for="pg8">Contact</label></div>
+      </div>
+    </div>
+
+    <div class="field" id="field-goal">
+      <label>What is the main goal of this website? <span class="req">*</span></label>
+      <div class="choices grid-2">
+        <div class="choice-item"><input type="radio" name="goal" id="g1" value="Generate leads / enquiries" required><label for="g1">Generate leads / enquiries</label></div>
+        <div class="choice-item"><input type="radio" name="goal" id="g2" value="Sell products or services online"><label for="g2">Sell products or services online</label></div>
+        <div class="choice-item"><input type="radio" name="goal" id="g3" value="Showcase portfolio or work"><label for="g3">Showcase portfolio or work</label></div>
+        <div class="choice-item"><input type="radio" name="goal" id="g4" value="Build credibility and trust"><label for="g4">Build credibility and trust</label></div>
+        <div class="choice-item"><input type="radio" name="goal" id="g5" value="Replace an outdated website"><label for="g5">Replace an outdated website</label></div>
+        <div class="choice-item"><input type="radio" name="goal" id="g6" value="Other"><label for="g6">Other</label></div>
+      </div>
+      <div class="field-error">Please select an option.</div>
+    </div>
+
+    <div class="field">
+      <label for="b-goal-detail">Describe your goal in a bit more detail</label>
+      <div class="field-hint">What does success look like for this project?</div>
+      <textarea id="b-goal-detail" name="goal_detail" placeholder="E.g. I want the site to generate at least 10 enquiries per month…" style="min-height:80px"></textarea>
+    </div>
+  </div>
+
+  <!-- Section 4: Design & Style -->
+  <div class="form-section">
+    <div class="section-header">
+      <div class="section-num">4</div>
+      <div class="section-title">Design & Style</div>
+    </div>
+
+    <div class="field">
+      <label for="b-references">Share 2–3 websites you like the look of</label>
+      <div class="field-hint">Paste the URLs and tell us what you like about each one.</div>
+      <textarea id="b-references" name="references" placeholder="https://example.com — I love the clean layout and bold typography…"></textarea>
+    </div>
+
+    <div class="field">
+      <label>What feeling should your website give visitors? (select all that apply)</label>
+      <div class="choices grid-2">
+        <div class="choice-item"><input type="checkbox" name="style" id="s1" value="Clean & minimal"><label for="s1">Clean & minimal</label></div>
+        <div class="choice-item"><input type="checkbox" name="style" id="s2" value="Bold & impactful"><label for="s2">Bold & impactful</label></div>
+        <div class="choice-item"><input type="checkbox" name="style" id="s3" value="Professional & corporate"><label for="s3">Professional & corporate</label></div>
+        <div class="choice-item"><input type="checkbox" name="style" id="s4" value="Warm & friendly"><label for="s4">Warm & friendly</label></div>
+        <div class="choice-item"><input type="checkbox" name="style" id="s5" value="Luxurious & premium"><label for="s5">Luxurious & premium</label></div>
+        <div class="choice-item"><input type="checkbox" name="style" id="s6" value="Playful & creative"><label for="s6">Playful & creative</label></div>
+        <div class="choice-item"><input type="checkbox" name="style" id="s7" value="Tech & modern"><label for="s7">Tech & modern</label></div>
+      </div>
+    </div>
+
+    <div class="field" id="field-brand">
+      <label>Do you have brand guidelines? <span class="req">*</span></label>
+      <div class="field-hint">Logo, colors, fonts…</div>
+      <div class="choices">
+        <div class="choice-item"><input type="radio" name="brand" id="br1" value="Yes — I'll send the files" required><label for="br1">Yes — I'll send the files after this form</label></div>
+        <div class="choice-item"><input type="radio" name="brand" id="br2" value="I have a logo only"><label for="br2">I have a logo only</label></div>
+        <div class="choice-item"><input type="radio" name="brand" id="br3" value="No — I need help with this too"><label for="br3">No — I need help with this too</label></div>
+        <div class="choice-item"><input type="radio" name="brand" id="br4" value="Still working on it"><label for="br4">Still working on it</label></div>
+      </div>
+      <div class="field-error">Please select an option.</div>
+    </div>
+  </div>
+
+  <!-- Section 5: Content & Assets -->
+  <div class="form-section">
+    <div class="section-header">
+      <div class="section-num">5</div>
+      <div class="section-title">Content & Assets</div>
+    </div>
+
+    <div class="field" id="field-copy">
+      <label>Will you provide the written text (copy) for the website? <span class="req">*</span></label>
+      <div class="choices">
+        <div class="choice-item"><input type="radio" name="copy" id="cp1" value="Yes — I'll write everything myself" required><label for="cp1">Yes — I'll write everything myself</label></div>
+        <div class="choice-item"><input type="radio" name="copy" id="cp2" value="Partially — I need some help"><label for="cp2">Partially — I need some help</label></div>
+        <div class="choice-item"><input type="radio" name="copy" id="cp3" value="No — I need copywriting as part of the project"><label for="cp3">No — I need copywriting as part of the project</label></div>
+      </div>
+      <div class="field-error">Please select an option.</div>
+    </div>
+
+    <div class="field" id="field-images">
+      <label>Will you provide images or photos? <span class="req">*</span></label>
+      <div class="choices">
+        <div class="choice-item"><input type="radio" name="images" id="im1" value="Yes — I have professional photos ready" required><label for="im1">Yes — I have professional photos ready</label></div>
+        <div class="choice-item"><input type="radio" name="images" id="im2" value="Some — mix of mine and stock images"><label for="im2">Some — mix of mine and stock images</label></div>
+        <div class="choice-item"><input type="radio" name="images" id="im3" value="No — please use stock photos only"><label for="im3">No — please use stock photos only</label></div>
+      </div>
+      <div class="field-error">Please select an option.</div>
+    </div>
+
+    <div class="field">
+      <label>Upload your logo or brand assets</label>
+      <div class="field-hint">Logo, brand guidelines, reference images… PNG, JPG, SVG, PDF — max 5 files, 2MB each.</div>
+      <div class="upload-zone" id="uploadZone">
+        <input type="file" id="b-uploads" multiple accept="image/*,.pdf,.svg" style="display:none">
+        <div class="upload-inner" id="uploadInner">
+          <div class="upload-icon">📎</div>
+          <p class="upload-text">Drag & drop files here</p>
+          <p class="upload-sub">or <span class="upload-browse">browse files</span></p>
+          <p class="upload-formats">PNG · JPG · SVG · PDF</p>
+        </div>
+        <div class="upload-preview" id="uploadPreview"></div>
+      </div>
+      <div class="field-error" id="upload-error" style="display:none"></div>
+    </div>
+
+    <div class="field">
+      <label>Any special features or integrations needed? (select all that apply)</label>
+      <div class="choices grid-2">
+        <div class="choice-item"><input type="checkbox" name="features" id="f1" value="Contact / booking form"><label for="f1">Contact / booking form</label></div>
+        <div class="choice-item"><input type="checkbox" name="features" id="f2" value="Online payments"><label for="f2">Online payments</label></div>
+        <div class="choice-item"><input type="checkbox" name="features" id="f3" value="Live chat"><label for="f3">Live chat</label></div>
+        <div class="choice-item"><input type="checkbox" name="features" id="f4" value="Social media feeds"><label for="f4">Social media feeds</label></div>
+        <div class="choice-item"><input type="checkbox" name="features" id="f5" value="Email newsletter signup"><label for="f5">Email newsletter signup</label></div>
+        <div class="choice-item"><input type="checkbox" name="features" id="f6" value="Google Analytics"><label for="f6">Google Analytics</label></div>
+        <div class="choice-item"><input type="checkbox" name="features" id="f7" value="CRM integration"><label for="f7">CRM integration</label></div>
+        <div class="choice-item"><input type="checkbox" name="features" id="f8" value="None"><label for="f8">None</label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 6: Timeline & Budget -->
+  <div class="form-section">
+    <div class="section-header">
+      <div class="section-num">6</div>
+      <div class="section-title">Timeline & Budget</div>
+    </div>
+
+    <div class="field" id="field-deadline">
+      <label>Do you have a deadline? <span class="req">*</span></label>
+      <div class="choices grid-2">
+        <div class="choice-item"><input type="radio" name="deadline" id="d1" value="Urgent — within 2 weeks" required><label for="d1">Urgent — within 2 weeks</label></div>
+        <div class="choice-item"><input type="radio" name="deadline" id="d2" value="Within 1 month"><label for="d2">Within 1 month</label></div>
+        <div class="choice-item"><input type="radio" name="deadline" id="d3" value="Within 2–3 months"><label for="d3">Within 2–3 months</label></div>
+        <div class="choice-item"><input type="radio" name="deadline" id="d4" value="No specific deadline"><label for="d4">No specific deadline</label></div>
+      </div>
+      <div class="field-error">Please select an option.</div>
+    </div>
+
+    <div class="field">
+      <label for="b-launch-date">Specific launch date (if any)</label>
+      <input type="text" id="b-launch-date" name="launch_date" placeholder="E.g. 15 June 2025">
+    </div>
+
+    <div class="field" id="field-budget">
+      <label>What is your approximate budget? <span class="req">*</span></label>
+      <div class="choices budget-grid">
+        <div class="choice-item"><input type="radio" name="budget" id="bu1" value="Under €1,000" required><label for="bu1" style="justify-content:center">Under €1k</label></div>
+        <div class="choice-item"><input type="radio" name="budget" id="bu2" value="€1,000 – €3,000"><label for="bu2" style="justify-content:center">€1k – €3k</label></div>
+        <div class="choice-item"><input type="radio" name="budget" id="bu3" value="€3,000 – €7,000"><label for="bu3" style="justify-content:center">€3k – €7k</label></div>
+        <div class="choice-item"><input type="radio" name="budget" id="bu4" value="€7,000+"><label for="bu4" style="justify-content:center">€7k+</label></div>
+        <div class="choice-item"><input type="radio" name="budget" id="bu5" value="Not sure yet"><label for="bu5" style="justify-content:center">Not sure yet</label></div>
+      </div>
+      <div class="field-error">Please select an option.</div>
+    </div>
+
+    <div class="field" id="field-hosting">
+      <label>Do you have hosting and a domain already? <span class="req">*</span></label>
+      <div class="choices">
+        <div class="choice-item"><input type="radio" name="hosting" id="h1" value="Yes — both hosting and domain" required><label for="h1">Yes — both hosting and domain</label></div>
+        <div class="choice-item"><input type="radio" name="hosting" id="h2" value="Domain only"><label for="h2">Domain only</label></div>
+        <div class="choice-item"><input type="radio" name="hosting" id="h3" value="No — I need recommendations"><label for="h3">No — I need recommendations</label></div>
+        <div class="choice-item"><input type="radio" name="hosting" id="h4" value="I'd like DevLoop to manage it"><label for="h4">I'd like DevLoop to manage it</label></div>
+      </div>
+      <div class="field-error">Please select an option.</div>
+    </div>
+  </div>
+
+  <!-- Section 7: Final -->
+  <div class="form-section">
+    <div class="section-header">
+      <div class="section-num">7</div>
+      <div class="section-title">Anything Else</div>
+    </div>
+
+    <div class="field">
+      <label for="b-extra">Is there anything important we haven't asked?</label>
+      <div class="field-hint">Specific requirements, past bad experiences, things that are non-negotiable…</div>
+      <textarea id="b-extra" name="extra" placeholder="Feel free to share anything that'll help us understand your project better…"></textarea>
+    </div>
+
+    <div class="field" id="field-ready">
+      <label>On a scale of 1–5, how ready are you to start? <span class="req">*</span></label>
+      <div class="scale-wrap">
+        <div class="scale-options">
+          <div class="scale-item"><input type="radio" name="readiness" id="r1" value="1" required><label for="r1">1</label></div>
+          <div class="scale-item"><input type="radio" name="readiness" id="r2" value="2"><label for="r2">2</label></div>
+          <div class="scale-item"><input type="radio" name="readiness" id="r3" value="3"><label for="r3">3</label></div>
+          <div class="scale-item"><input type="radio" name="readiness" id="r4" value="4"><label for="r4">4</label></div>
+          <div class="scale-item"><input type="radio" name="readiness" id="r5" value="5"><label for="r5">5</label></div>
+        </div>
+        <div class="scale-labels">
+          <span>Just exploring</span>
+          <span>Ready to go</span>
+        </div>
+      </div>
+      <div class="field-error">Please select a value.</div>
+    </div>
+
+    <div class="field">
+      <label>How did you find us?</label>
+      <div class="choices grid-2">
+        <div class="choice-item"><input type="radio" name="source" id="src1" value="Google Search"><label for="src1">Google Search</label></div>
+        <div class="choice-item"><input type="radio" name="source" id="src2" value="Instagram / Social Media"><label for="src2">Instagram / Social Media</label></div>
+        <div class="choice-item"><input type="radio" name="source" id="src3" value="Referral from someone"><label for="src3">Referral from someone</label></div>
+        <div class="choice-item"><input type="radio" name="source" id="src4" value="Other"><label for="src4">Other</label></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Submit -->
+  <div class="submit-area">
+    <p>That's it. We'll review your briefing and come back to you within <strong>48 business hours</strong> with a tailored proposal.</p>
+    <button type="submit" class="btn-submit" id="briefing-btn">
+      Send Briefing →
+    </button>
+  </div>
+
+</form>
+
+<!-- Success -->
+<div id="success">
+  <div class="success-icon">✓</div>
+  <h2>Briefing received.</h2>
+  <p>Thanks for taking the time to fill this out. We'll review everything and get back to you within 48 business hours.</p>
+  <a href="/">← Back to devloop.com</a>
+</div>
+
+</main>
+
+<footer>
+  <a href="/">devloop.com</a> &nbsp;·&nbsp; hello@devloop.agency
+</footer>
+
+<script>
+/* ── RESTORE SUCCESS STATE ON RELOAD ── */
+if (localStorage.getItem('briefing_submitted') === 'true') {
+  document.getElementById('briefing-form').style.display = 'none';
+  const s = document.getElementById('success');
+  s.style.display = 'block';
+  document.getElementById('progressFill').style.width = '100%';
+}
+
+/* ── FILE UPLOAD ── */
+const uploadZone   = document.getElementById('uploadZone');
+const uploadInput  = document.getElementById('b-uploads');
+const uploadPreview= document.getElementById('uploadPreview');
+const uploadInner  = document.getElementById('uploadInner');
+const uploadErr    = document.getElementById('upload-error');
+const MAX_FILES = 5;
+const MAX_SIZE  = 2 * 1024 * 1024;
+
+let uploadedFiles = [];
+
+function fmtSize(b) {
+  return b < 1024*1024 ? Math.round(b/1024) + ' KB' : (b/(1024*1024)).toFixed(1) + ' MB';
+}
+
+function renderPreviews() {
+  uploadPreview.innerHTML = '';
+  uploadInner.style.display = uploadedFiles.length ? 'none' : '';
+  uploadedFiles.forEach((f, i) => {
+    const item = document.createElement('div');
+    item.className = 'upload-item';
+
+    if (f.preview) {
+      const img = document.createElement('img');
+      img.className = 'upload-item-thumb';
+      img.src = f.preview;
+      item.appendChild(img);
+    } else {
+      const ic = document.createElement('div');
+      ic.className = 'upload-item-icon';
+      ic.textContent = f.type === 'application/pdf' ? '📄' : '📎';
+      item.appendChild(ic);
+    }
+
+    const info = document.createElement('div');
+    info.className = 'upload-item-info';
+    info.innerHTML = `<div class="upload-item-name">${f.name}</div><div class="upload-item-size">${fmtSize(f.size)}</div>`;
+    item.appendChild(info);
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'upload-remove';
+    btn.textContent = '×';
+    btn.onclick = (e) => { e.stopPropagation(); uploadedFiles.splice(i,1); renderPreviews(); };
+    item.appendChild(btn);
+
+    uploadPreview.appendChild(item);
+  });
+
+  if (uploadedFiles.length > 0 && uploadedFiles.length < MAX_FILES) {
+    const add = document.createElement('p');
+    add.className = 'upload-count';
+    add.style.cssText = 'text-align:center;padding:0 0 12px;cursor:pointer;color:var(--accent);font-size:13px;font-weight:600';
+    add.textContent = `+ Add more (${uploadedFiles.length}/${MAX_FILES})`;
+    add.onclick = () => uploadInput.click();
+    uploadPreview.appendChild(add);
+  }
+}
+
+function handleFiles(files) {
+  Array.from(files).forEach(file => {
+    if (uploadedFiles.length >= MAX_FILES) {
+      uploadErr.textContent = `Maximum ${MAX_FILES} files allowed.`;
+      uploadErr.style.display = 'block';
+      return;
+    }
+    if (file.size > MAX_SIZE) {
+      uploadErr.textContent = `"${file.name}" exceeds 2MB. Please compress it first.`;
+      uploadErr.style.display = 'block';
+      return;
+    }
+    uploadErr.style.display = 'none';
+    const obj = { name: file.name, size: file.size, type: file.type, file };
+    if (file.type.startsWith('image/')) {
+      const r = new FileReader();
+      r.onload = e => { obj.preview = e.target.result; renderPreviews(); };
+      r.readAsDataURL(file);
+    }
+    uploadedFiles.push(obj);
+    renderPreviews();
+  });
+  uploadInput.value = '';
+}
+
+uploadInner.addEventListener('click', () => uploadInput.click());
+uploadInput.addEventListener('change', () => handleFiles(uploadInput.files));
+uploadZone.addEventListener('dragover',  e => { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('drag-over'));
+uploadZone.addEventListener('drop', e => {
+  e.preventDefault();
+  uploadZone.classList.remove('drag-over');
+  handleFiles(e.dataTransfer.files);
+});
+
+/* ── PROGRESS BAR ── */
+const fill = document.getElementById('progressFill');
+const form = document.getElementById('briefing-form');
+
+function updateProgress() {
+  const required = form.querySelectorAll('[required]');
+  let filled = 0;
+  const names = new Set();
+  required.forEach(el => {
+    if (el.type === 'radio' || el.type === 'checkbox') {
+      if (!names.has(el.name)) {
+        names.add(el.name);
+        if (form.querySelector(`[name="${el.name}"]:checked`)) filled++;
+      }
+    } else {
+      if (el.value.trim()) filled++;
+    }
+  });
+  const total = required.length - (required.length - names.size) + [...names].length;
+  const pct = Math.min(100, Math.round((filled / (names.size + form.querySelectorAll('input[required]:not([type="radio"]):not([type="checkbox"]),[required]textarea').length)) * 100));
+  fill.style.width = pct + '%';
+}
+
+form.addEventListener('change', updateProgress);
+form.addEventListener('input', updateProgress);
+
+/* ── SUBMIT ── */
+form.addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  let valid = true;
+
+  /* Text / email / textarea */
+  ['field-name','field-business','field-email','field-what','field-audience'].forEach(id => {
+    const wrapper = document.getElementById(id);
+    const input = wrapper.querySelector('input, textarea');
+    if (!input.value.trim()) {
+      wrapper.classList.add('has-error');
+      wrapper.querySelector('.field-error').style.display = 'block';
+      valid = false;
+    } else {
+      wrapper.classList.remove('has-error');
+      wrapper.querySelector('.field-error').style.display = 'none';
+    }
+  });
+
+  /* Email format */
+  const emailEl = document.getElementById('b-email');
+  if (emailEl.value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value)) {
+    document.getElementById('field-email').classList.add('has-error');
+    document.getElementById('field-email').querySelector('.field-error').style.display = 'block';
+    valid = false;
+  }
+
+  /* Radio groups */
+  ['field-type','field-goal','field-brand','field-copy','field-images',
+   'field-deadline','field-budget','field-hosting','field-ready'].forEach(id => {
+    const wrapper = document.getElementById(id);
+    const name = wrapper.querySelector('input[type="radio"]').name;
+    if (!form.querySelector(`[name="${name}"]:checked`)) {
+      wrapper.querySelector('.field-error').style.display = 'block';
+      valid = false;
+    } else {
+      wrapper.querySelector('.field-error').style.display = 'none';
+    }
+  });
+
+  if (!valid) {
+    document.querySelector('.has-error, [style*="display: block"].field-error')
+      ?.closest('.form-section')
+      ?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    return;
+  }
+
+  /* Collect data */
+  const data = {
+    name:        document.getElementById('b-name').value.trim(),
+    email:       document.getElementById('b-email').value.trim(),
+    business:    document.getElementById('b-business').value.trim(),
+    website:     document.getElementById('b-website').value.trim(),
+    industry:    document.getElementById('b-industry').value.trim(),
+    what:        document.getElementById('b-what').value.trim(),
+    audience:    document.getElementById('b-audience').value.trim(),
+    competitors: document.getElementById('b-competitors').value.trim(),
+    project_type:(form.querySelector('[name="project_type"]:checked') || {}).value || '',
+    pages:       [...form.querySelectorAll('[name="pages"]:checked')].map(x=>x.value).join(', ') || '—',
+    goal:        (form.querySelector('[name="goal"]:checked') || {}).value || '',
+    goal_detail: document.getElementById('b-goal-detail').value.trim(),
+    references:  document.getElementById('b-references').value.trim(),
+    style:       [...form.querySelectorAll('[name="style"]:checked')].map(x=>x.value).join(', ') || '—',
+    brand:       (form.querySelector('[name="brand"]:checked') || {}).value || '',
+    copy:        (form.querySelector('[name="copy"]:checked') || {}).value || '',
+    images:      (form.querySelector('[name="images"]:checked') || {}).value || '',
+    features:    [...form.querySelectorAll('[name="features"]:checked')].map(x=>x.value).join(', ') || '—',
+    deadline:    (form.querySelector('[name="deadline"]:checked') || {}).value || '',
+    launch_date: document.getElementById('b-launch-date').value.trim(),
+    budget:      (form.querySelector('[name="budget"]:checked') || {}).value || '',
+    hosting:     (form.querySelector('[name="hosting"]:checked') || {}).value || '',
+    extra:       document.getElementById('b-extra').value.trim(),
+    readiness:   (form.querySelector('[name="readiness"]:checked') || {}).value || '',
+    source:      (form.querySelector('[name="source"]:checked') || {}).value || '',
+  };
+
+  /* Convert uploaded files to base64 */
+  if (uploadedFiles.length > 0) {
+    const toBase64 = f => new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = e => res({ name: f.name, type: f.type, content: e.target.result.split(',')[1] });
+      r.onerror = rej;
+      r.readAsDataURL(f.file);
+    });
+    data.attachments = await Promise.all(uploadedFiles.map(toBase64));
+  }
+
+  const btn = document.getElementById('briefing-btn');
+  btn.disabled = true;
+  btn.textContent = 'Sending…';
+
+  try {
+    const res = await fetch('/.netlify/functions/send-briefing', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+
+    if (res.ok) {
+      localStorage.setItem('briefing_submitted', 'true');
+      form.style.display = 'none';
+      document.getElementById('success').style.display = 'block';
+      fill.style.width = '100%';
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      btn.disabled = false;
+      btn.textContent = 'Send Briefing →';
+      alert('Something went wrong. Please email us at hello@devloop.agency');
+    }
+  } catch {
+    btn.disabled = false;
+    btn.textContent = 'Send Briefing →';
+    alert('Connection error. Please email us at hello@devloop.agency');
+  }
+});
+</script>
+</body>
+</html>
