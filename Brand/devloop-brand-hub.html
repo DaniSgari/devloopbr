@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DevLoop — Brand Hub</title>
+<link href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@300,400,700,800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0A0A0A; --surf:#111111; --elev:#1A1A1A; --border:#2A2A2A;
+  --og:#FF4D00; --og-hover:#FF7A35; --og-subtle:rgba(255,77,0,0.10);
+  --white:#F5F5F0; --dim:rgba(245,245,240,0.55); --dimmer:rgba(245,245,240,0.28);
+  --nav-w:260px;
+}
+body{background:var(--bg);color:var(--white);font-family:'Cabinet Grotesk',sans-serif;display:flex;min-height:100vh}
+
+/* ── SIDEBAR ── */
+nav{
+  width:var(--nav-w);flex-shrink:0;background:var(--surf);
+  border-right:1px solid var(--border);
+  position:sticky;top:0;height:100vh;overflow-y:auto;
+  display:flex;flex-direction:column;
+}
+.nav-brand{padding:28px 24px 20px;border-bottom:1px solid var(--border)}
+.nav-brand .d{font-weight:300;font-size:18px;color:var(--dim)}
+.nav-brand .l{font-weight:800;font-size:18px}
+.nav-brand .tag{
+  display:inline-block;font-size:9px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;background:var(--og);color:#fff;
+  padding:3px 8px;border-radius:3px;margin-top:8px;
+}
+.nav-links{padding:16px 0;flex:1}
+.nav-section{padding:6px 24px 2px;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer)}
+.nav-link{
+  display:flex;align-items:center;gap:10px;padding:9px 24px;
+  font-size:13px;font-weight:400;color:var(--dim);text-decoration:none;
+  border-left:2px solid transparent;transition:all .15s;
+}
+.nav-link:hover,.nav-link.active{color:var(--white);border-left-color:var(--og);background:rgba(255,77,0,0.05)}
+.nav-link .num{
+  font-size:9px;font-weight:700;width:18px;height:18px;border-radius:50%;
+  background:var(--border);color:var(--dimmer);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.nav-link.active .num{background:var(--og);color:#fff}
+.nav-footer{padding:20px 24px;border-top:1px solid var(--border);font-size:11px;color:var(--dimmer)}
+
+/* ── MAIN ── */
+main{flex:1;min-width:0;max-width:860px;padding:0 60px 100px}
+
+/* ── SECTION ── */
+.section{padding-top:72px}
+.eyebrow{
+  font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--og);display:flex;align-items:center;gap:10px;margin-bottom:14px;
+}
+.eyebrow::after{content:'';flex:1;height:1px;background:rgba(255,77,0,0.2)}
+.section h2{font-size:40px;font-weight:800;letter-spacing:-.03em;margin-bottom:8px}
+.section-sub{font-size:15px;font-weight:300;color:var(--dim);margin-bottom:36px;line-height:1.65}
+
+/* ── BLOCKS ── */
+.card{background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:24px 28px;margin-bottom:14px}
+.card h3{font-size:16px;font-weight:700;margin-bottom:8px}
+.card p,.card li{font-size:14px;color:var(--dim);line-height:1.7}
+.card ul{list-style:none;display:flex;flex-direction:column;gap:6px}
+.card ul li{padding-left:18px;position:relative}
+.card ul li::before{content:'→';position:absolute;left:0;color:var(--og);font-size:11px;top:2px}
+
+.highlight{
+  background:var(--og-subtle);border:1px solid rgba(255,77,0,0.2);
+  border-radius:12px;padding:24px 28px;margin-bottom:14px;
+}
+.highlight p,.highlight li{font-size:14px;color:var(--white);line-height:1.7}
+.highlight strong{color:var(--og)}
+
+.divider{border:none;border-top:1px solid var(--border);margin:36px 0}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;margin-bottom:16px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--elev);color:var(--dimmer);font-size:10px;font-weight:700;
+   letter-spacing:.1em;text-transform:uppercase;padding:10px 16px;text-align:left;
+   border-bottom:1px solid var(--border)}
+td{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--dim);vertical-align:top}
+tr:last-child td{border-bottom:none}
+td:first-child{color:var(--white);font-weight:500}
+td.og{color:var(--og);font-weight:700}
+td.dim{color:var(--dimmer);text-decoration:line-through}
+
+/* ── COLOR SWATCHES ── */
+.swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+.swatch{border-radius:10px;overflow:hidden;border:1px solid var(--border)}
+.swatch-color{height:72px}
+.swatch-info{padding:10px 12px;background:var(--surf)}
+.swatch-name{font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--dimmer);margin-bottom:2px}
+.swatch-hex{font-size:12px;font-family:monospace;color:var(--white)}
+.swatch-use{font-size:10px;color:var(--dimmer);margin-top:2px}
+
+/* ── CODE BLOCK ── */
+pre{
+  background:#000;border:1px solid rgba(255,77,0,0.2);border-radius:10px;
+  padding:20px 24px;font-family:monospace;font-size:12px;color:rgba(245,245,240,0.7);
+  overflow-x:auto;line-height:1.7;margin-bottom:16px;
+}
+pre .tok{color:var(--og)}
+pre .cmt{color:rgba(245,245,240,0.3)}
+
+/* ── PILLS ── */
+.pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.pill{
+  font-size:11px;font-weight:700;letter-spacing:.06em;
+  padding:5px 12px;border-radius:20px;
+  background:rgba(255,255,255,0.06);color:var(--dim);
+}
+.pill.og{background:rgba(255,77,0,0.15);color:var(--og)}
+
+/* ── VOICE EXAMPLES ── */
+.voice-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.voice-bad,.voice-good{border-radius:10px;padding:14px 18px;font-size:13px;line-height:1.6}
+.voice-bad{background:rgba(255,59,48,0.08);border:1px solid rgba(255,59,48,0.15);color:rgba(245,245,240,0.5)}
+.voice-bad::before{content:'✗  ';color:#FF3B30;font-weight:700}
+.voice-good{background:rgba(52,199,89,0.06);border:1px solid rgba(52,199,89,0.15);color:var(--dim)}
+.voice-good::before{content:'✓  ';color:#34C759;font-weight:700}
+
+/* ── STAT CARDS ── */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin-bottom:20px}
+.stat-card{background:var(--surf);border:1px solid var(--border);border-radius:10px;padding:20px}
+.stat-card .num{font-size:48px;font-weight:800;letter-spacing:-.04em;color:var(--og);line-height:1}
+.stat-card .label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--dimmer);margin-top:6px}
+
+/* ── PILLAR CARDS ── */
+.pillar{
+  background:var(--surf);border:1px solid var(--border);border-radius:12px;
+  padding:22px 26px;margin-bottom:12px;display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:start;
+}
+.pillar-num{
+  font-size:11px;font-weight:700;background:var(--og);color:#fff;
+  padding:3px 10px;border-radius:4px;letter-spacing:.06em;margin-top:3px;
+}
+.pillar h3{font-size:15px;font-weight:700;margin-bottom:4px}
+.pillar p{font-size:13px;color:var(--dim);line-height:1.6}
+.pillar .pct{font-size:22px;font-weight:800;color:var(--og)}
+
+/* ── LOGO RULES ── */
+.logo-rules{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.logo-rule{border-radius:10px;padding:18px;border:1px solid var(--border);font-size:13px;color:var(--dim)}
+.logo-rule.good{border-color:rgba(52,199,89,0.2);background:rgba(52,199,89,0.04)}
+.logo-rule.bad{border-color:rgba(255,59,48,0.15);background:rgba(255,59,48,0.04)}
+.logo-rule .rule-head{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:8px}
+.logo-rule.good .rule-head{color:#34C759}
+.logo-rule.bad .rule-head{color:#FF3B30}
+.logo-rule ul{list-style:none;display:flex;flex-direction:column;gap:4px}
+.logo-rule ul li{padding-left:14px;position:relative}
+.logo-rule.good ul li::before{content:'✓';position:absolute;left:0;color:#34C759;font-size:10px}
+.logo-rule.bad ul li::before{content:'✗';position:absolute;left:0;color:#FF3B30;font-size:10px}
+
+/* ── POSTING SCHEDULE ── */
+.schedule{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:20px}
+.day-card{background:var(--surf);border:1px solid var(--border);border-radius:8px;padding:12px 8px;text-align:center}
+.day-card .day-name{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--dimmer);margin-bottom:6px}
+.day-card .day-action{font-size:11px;font-weight:700;color:var(--dim)}
+.day-card.post{border-color:rgba(255,77,0,0.3);background:rgba(255,77,0,0.06)}
+.day-card.post .day-action{color:var(--og)}
+
+@media(max-width:1100px){
+  main{padding:0 36px 80px}
+}
+@media(max-width:800px){
+  body{flex-direction:column}
+  nav{width:100%;height:auto;position:relative;border-right:none;border-bottom:1px solid var(--border)}
+  .nav-links{display:flex;flex-wrap:wrap;padding:8px 16px}
+  .nav-link{border-left:none;border-bottom:2px solid transparent;padding:8px 12px}
+  .nav-link:hover,.nav-link.active{border-left-color:transparent;border-bottom-color:var(--og)}
+  main{padding:0 24px 60px}
+}
+</style>
+</head>
+<body>
+
+<!-- ── SIDEBAR ── -->
+<nav id="nav">
+  <div class="nav-brand">
+    <div><span class="d">dev</span><span class="l">LOOP</span></div>
+    <div class="tag">Brand Hub</div>
+  </div>
+  <div class="nav-links">
+    <div class="nav-section">Identity</div>
+    <a class="nav-link active" href="#studio"><span class="num">1</span>The Studio</a>
+    <a class="nav-link" href="#positioning"><span class="num">2</span>Positioning</a>
+    <a class="nav-link" href="#voice"><span class="num">3</span>Brand Voice</a>
+    <div class="nav-section">Design</div>
+    <a class="nav-link" href="#visual"><span class="num">4</span>Visual Identity</a>
+    <a class="nav-link" href="#tokens"><span class="num">5</span>Design Tokens</a>
+    <div class="nav-section">Content</div>
+    <a class="nav-link" href="#instagram"><span class="num">6</span>Instagram Strategy</a>
+    <a class="nav-link" href="#comms"><span class="num">7</span>Communications</a>
+  </div>
+  <div class="nav-footer">
+    Internal use only · v1.0 · April 2026<br>
+    devloop.agency
+  </div>
+</nav>
+
+<!-- ── MAIN ── -->
+<main>
+
+<!-- ── 01 THE STUDIO ── -->
+<section class="section" id="studio">
+  <div class="eyebrow">01 — Identity</div>
+  <h2>The Studio</h2>
+  <p class="section-sub">Who DevLoop is, what it builds, who it builds for — and what it refuses to be.</p>
+
+  <div class="highlight">
+    <p><strong>Mission:</strong> Close the loop between the business a client has and the clients they haven't reached yet.</p>
+  </div>
+
+  <div class="card">
+    <h3>Who We Are</h3>
+    <p>DevLoop is a digital studio — not an agency. We build two things: <strong>websites</strong> that make a business look like it means business, and <strong>web systems</strong> that solve real operational problems. Every project is custom-directed. Nothing is templated. Nothing is accidental.</p>
+    <p style="margin-top:10px">The market DevLoop targets is full of businesses with real ambition being served by studios that are either too expensive and slow, or too cheap and generic. We exist in the gap.</p>
+  </div>
+
+  <div class="stat-grid">
+    <div class="stat-card"><div class="num">9</div><div class="label">Days avg. delivery</div></div>
+    <div class="stat-card"><div class="num">2</div><div class="label">Weeks brief → launch</div></div>
+    <div class="stat-card"><div class="num">0</div><div class="label">Hidden costs. Ever.</div></div>
+    <div class="stat-card"><div class="num">IE+UK</div><div class="label">Our market</div></div>
+  </div>
+
+  <div class="card">
+    <h3>The Client We Build For — "The Forgotten Ambitious"</h3>
+    <ul>
+      <li>A real business. Growing. Has clients, product, and a clear vision.</li>
+      <li>Their digital presence doesn't reflect what they already are — or where they're going.</li>
+      <li>Too advanced for DIY builders. Too sensible for a €30k agency quote.</li>
+      <li>Based in Ireland or the UK. SME. Ready to be taken seriously.</li>
+      <li>Arrives via the contact form already knowing what they want.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Core Values</h3>
+    <ul>
+      <li><strong>Execution over promise</strong> — we don't talk about what we'll do. We deliver, and the result speaks.</li>
+      <li><strong>Precision as respect</strong> — every detail is intentional. Nothing is left to chance.</li>
+      <li><strong>Strategic invisibility</strong> — the studio stays in the background. The client's work goes forward.</li>
+      <li><strong>Selection over volume</strong> — fewer clients, more impact. The right client is worth more than ten wrong ones.</li>
+      <li><strong>Permanent curiosity</strong> — the market changes. Technology changes. We track it — and often arrive early.</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>The Loop Concept</h3>
+    <p>The name DevLoop is intentional. In code, a loop is efficient, precise, and continuous. In business, the loop we close is:</p>
+    <pre style="margin-top:14px"><span class="tok">BUSINESS → DIGITAL PRESENCE → NEW CLIENT → GROWTH → BUSINESS (better)</span>
+   ↑___________________________________________________|
+
+              That's the DevLoop.</pre>
+    <p>We don't deliver a website. We close a growth cycle.</p>
+  </div>
+
+  <div class="card">
+    <h3>What DevLoop Is vs. Is Not</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>DevLoop IS</th><th>DevLoop IS NOT</th></tr></thead>
+        <tbody>
+          <tr><td>Confident</td><td>Arrogant</td></tr>
+          <tr><td>Selective</td><td>Exclusive by price</td></tr>
+          <tr><td>Direct</td><td>Cold</td></tr>
+          <tr><td>Creative</td><td>Chaotic</td></tr>
+          <tr><td>Premium</td><td>Inaccessible</td></tr>
+          <tr><td>A studio</td><td>An agency</td></tr>
+          <tr><td>Modern</td><td>Without personality</td></tr>
+          <tr><td>International</td><td>Without roots</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── 02 POSITIONING ── -->
+<section class="section" id="positioning">
+  <div class="eyebrow">02 — Strategy</div>
+  <h2>Positioning</h2>
+  <p class="section-sub">The single space in the market DevLoop owns — and why no one else owns it.</p>
+
+  <div class="highlight">
+    <p><strong>Only-ness Statement:</strong><br>DevLoop is the only digital studio in Ireland that uses AI-native production to deliver agency-quality websites for ambitious SMEs — in a fraction of the time and without the agency overhead.</p>
+  </div>
+
+  <div class="card">
+    <h3>The Category DevLoop Owns</h3>
+    <p><strong>AI-accelerated premium — fast without sacrifice.</strong></p>
+    <p style="margin-top:8px">Traditional agencies own "bespoke." Freelancers own "affordable." Template builders own "DIY." DevLoop owns the space no one has named: the intersection of agency-quality output and studio-speed delivery.</p>
+    <p style="margin-top:8px">The internal monologue DevLoop interrupts: <em>"I know I need a proper website but I don't have 3 months or €10k."</em><br>DevLoop's answer: <strong>You don't need either.</strong></p>
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Factor</th><th>Traditional Agency</th><th>Freelancer</th><th>Wix/Squarespace</th><th>DevLoop</th></tr></thead>
+      <tbody>
+        <tr><td>Quality</td><td>High</td><td>Variable</td><td>Low</td><td class="og">High</td></tr>
+        <tr><td>Speed</td><td>2–4 months</td><td>4–8 weeks</td><td>Instant</td><td class="og">1–2 weeks</td></tr>
+        <tr><td>Price</td><td>€15k–€50k</td><td>€2k–€8k</td><td>€200/yr</td><td class="og">€2k–€6k</td></tr>
+        <tr><td>Strategic input</td><td>Yes</td><td>Rarely</td><td>No</td><td class="og">Yes</td></tr>
+        <tr><td>Ongoing support</td><td>Yes (retainer)</td><td>Rarely</td><td>No</td><td class="og">Yes</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>Internal Positioning Statement</h3>
+    <p>For ambitious small and medium businesses in Ireland and the UK who need a website that reflects where they're going — not where they've been — DevLoop is the AI-powered digital studio that delivers sharp, high-performance websites faster than any traditional agency, without the complexity, the waiting, or the inflated invoices.</p>
+  </div>
+
+  <div class="card">
+    <h3>What DevLoop Is Not</h3>
+    <ul>
+      <li>Not a freelancer — this is a studio with a system and a process</li>
+      <li>Not a template shop — every site is custom-directed</li>
+      <li>Not an agency that charges for complexity it creates</li>
+      <li>Not a tech company — a creative studio that uses technology intelligently</li>
+      <li>Not for everyone — for businesses that are <em>ready</em> to be taken seriously</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── 03 BRAND VOICE ── -->
+<section class="section" id="voice">
+  <div class="eyebrow">03 — Communication</div>
+  <h2>Brand Voice</h2>
+  <p class="section-sub">How DevLoop sounds, what it says, what it never says — and why every word is deliberate.</p>
+
+  <div class="card">
+    <h3>Brand Archetypes</h3>
+    <p><strong>Primary: The Magician.</strong> DevLoop transforms. A client comes in with an ordinary online presence and leaves with something that makes them feel they're finally being taken seriously. The Magician doesn't explain the trick — it delivers the result.</p>
+    <p style="margin-top:8px"><strong>Secondary: The Creator.</strong> The Creator believes that if it can be imagined, it can be built. DevLoop brings creative vision to businesses that didn't know they needed it. Every pixel, every word, every interaction is intentional.</p>
+    <p style="margin-top:8px;font-style:italic;color:var(--og)">The tension between Magician and Creator is the brand's energy: fast, but not careless. Beautiful, but not vain.</p>
+  </div>
+
+  <div class="card">
+    <h3>Voice in One Sentence</h3>
+    <p style="font-size:16px;font-weight:700;color:var(--white)">"Confident clarity with a creative edge — the studio that makes you feel like the smartest decision you made today was calling them."</p>
+  </div>
+
+  <div class="card">
+    <h3>The 4 Voice Pillars</h3>
+    <ul>
+      <li><strong>Direct</strong> — Say the thing. No jargon. No padding.</li>
+      <li><strong>Confident</strong> — DevLoop knows what it's doing. It doesn't hedge or apologise.</li>
+      <li><strong>Human</strong> — Real language. Contractions. Questions that make you stop.</li>
+      <li><strong>A little provocative</strong> — The brand has a point of view. It's allowed to say what others won't.</li>
+    </ul>
+  </div>
+
+  <div class="voice-row">
+    <div class="voice-bad">"We offer comprehensive digital solutions tailored to your unique business needs."</div>
+    <div class="voice-good">"We build websites that make people take you seriously."</div>
+  </div>
+  <div class="voice-row">
+    <div class="voice-bad">"We try our best to deliver quality results in a timely manner."</div>
+    <div class="voice-good">"In two weeks, your business looks like it means business."</div>
+  </div>
+  <div class="voice-row">
+    <div class="voice-bad">"Thank you for your interest in our services."</div>
+    <div class="voice-good">"Got it. We'll be in touch."</div>
+  </div>
+  <div class="voice-row">
+    <div class="voice-bad">"We understand that website development can seem daunting."</div>
+    <div class="voice-good">"You've been putting this off. We get it. Let's fix that."</div>
+  </div>
+
+  <div class="card">
+    <h3>DevLoop Vocabulary</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Say This</th><th>Not This</th></tr></thead>
+        <tbody>
+          <tr><td>Sharp</td><td class="dim">Nice / Pretty</td></tr>
+          <tr><td>Ambitious</td><td class="dim">Successful</td></tr>
+          <tr><td>Close the loop</td><td class="dim">Complete the project</td></tr>
+          <tr><td>Ready</td><td class="dim">Interested</td></tr>
+          <tr><td>Studio</td><td class="dim">Agency</td></tr>
+          <tr><td>Build</td><td class="dim">Create / Make / Provide</td></tr>
+          <tr><td>SMEs who mean business</td><td class="dim">Small businesses</td></tr>
+          <tr><td>In days</td><td class="dim">Quickly / Fast-turnaround</td></tr>
+          <tr><td>Efficient</td><td class="dim">Affordable (implies cheap)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>What DevLoop Never Says</h3>
+    <div class="pill-row">
+      <span class="pill">"Solutions"</span>
+      <span class="pill">"Passionate about"</span>
+      <span class="pill">"Leverage"</span>
+      <span class="pill">"Synergy"</span>
+      <span class="pill">"Ecosystem"</span>
+      <span class="pill">"Affordable"</span>
+      <span class="pill">"We work with businesses of all sizes"</span>
+      <span class="pill">"Journey"</span>
+      <span class="pill">"Team" (say "studio")</span>
+      <span class="pill">"Best" or "Most complete"</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Tone Rules</h3>
+    <ul>
+      <li>No exclamation marks in excess — one max per communication</li>
+      <li>No emojis in professional communication</li>
+      <li>No explaining the obvious — trust the reader's intelligence</li>
+      <li>No apologising for being selective</li>
+      <li>Answer with precision, not speed</li>
+      <li>Always write in English for all client-facing content</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── 04 VISUAL IDENTITY ── -->
+<section class="section" id="visual">
+  <div class="eyebrow">04 — Design System</div>
+  <h2>Visual Identity</h2>
+  <p class="section-sub">The visual language that makes visitors stop before they read a single word.</p>
+
+  <div class="card">
+    <h3>Visual Philosophy</h3>
+    <p>The identity must provoke a reaction before communicating information. The visitor stops. Looks. Feels something. Only then reads. In a market where every digital studio has a blue site with a laptop mockup, DevLoop uses its visual as proof of concept: <em>"If they did this for themselves, imagine what they'll do for you."</em></p>
+  </div>
+
+  <h3 style="font-size:14px;font-weight:700;margin-bottom:14px;color:var(--dimmer);letter-spacing:.06em;text-transform:uppercase">Colour Palette</h3>
+  <div class="swatches">
+    <div class="swatch">
+      <div class="swatch-color" style="background:#0A0A0A;border-bottom:1px solid #222"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Deep Black</div>
+        <div class="swatch-hex">#0A0A0A</div>
+        <div class="swatch-use">Background — main</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#111111;border-bottom:1px solid #222"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Surface</div>
+        <div class="swatch-hex">#111111</div>
+        <div class="swatch-use">Cards, alt sections</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#1A1A1A;border-bottom:1px solid #222"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Elevated</div>
+        <div class="swatch-hex">#1A1A1A</div>
+        <div class="swatch-use">Inputs, modals</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#FF4D00"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Electric Orange</div>
+        <div class="swatch-hex">#FF4D00</div>
+        <div class="swatch-use">Primary accent, CTA</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#FF7A35"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Amber Orange</div>
+        <div class="swatch-hex">#FF7A35</div>
+        <div class="swatch-use">Hover state, gradients</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#F5F5F0"></div>
+      <div class="swatch-info">
+        <div class="swatch-name">Off-White</div>
+        <div class="swatch-hex">#F5F5F0</div>
+        <div class="swatch-use">Primary text</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <h3>The Orange Rule</h3>
+    <p>The electric orange appears with <strong>intention</strong>. It is not decoration — it is signalling. Where orange is, the eye goes. Never use orange as a background except in CTA sections and stat posts. Never use it for more than 15% of any surface.</p>
+  </div>
+
+  <div class="card">
+    <h3>Typography</h3>
+    <p><strong>Display — Cabinet Grotesk</strong><br>Headlines, section titles, elements of impact. Weight: 300 (light "dev") + 800 (extrabold "LOOP"). The contrast between these weights is intentional — it creates the brand's visual signature. Sizes: aggressively large, 80px+ in hero contexts.</p>
+    <p style="margin-top:12px"><strong>Body — Satoshi / Inter</strong><br>Paragraphs, labels, forms, emails. Weight: Regular + Medium. Size: 16–18px for reading comfort.</p>
+    <p style="margin-top:12px;color:var(--og);font-weight:700">Rule: Two typefaces. Never three. The contrast between dramatic display and clean body creates the visual tension that defines the brand.</p>
+  </div>
+
+  <div class="logo-rules">
+    <div class="logo-rule good">
+      <div class="rule-head">✓ Logo do's</div>
+      <ul>
+        <li>Always circular in social contexts (border-radius: 50%)</li>
+        <li>Use on dark backgrounds (#0A0A0A preferred)</li>
+        <li>Maintain clear space equal to the logo height on all sides</li>
+        <li>Use SVG files for all digital applications</li>
+        <li>Minimum size: 32px height</li>
+      </ul>
+    </div>
+    <div class="logo-rule bad">
+      <div class="rule-head">✗ Logo don'ts</div>
+      <ul>
+        <li>Never distort or stretch the logo proportions</li>
+        <li>Never place on a busy photo without dark overlay</li>
+        <li>Never use an outline/stroke version unless specified</li>
+        <li>Never recreate the wordmark — always use the file</li>
+        <li>Never use on white background (dark bg only)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Image & Media Rules</h3>
+    <ul>
+      <li>Mockups on dark backgrounds with dramatic lighting</li>
+      <li>Details in close-up — parts of projects, not generic overviews</li>
+      <li>Movement whenever possible (short video, Reel)</li>
+      <li><strong>Never:</strong> stock photos of people smiling in offices</li>
+      <li><strong>Never:</strong> generic laptop/phone in isometric angle</li>
+      <li><strong>Never:</strong> colours outside the defined palette</li>
+      <li><strong>Never:</strong> unprocessed images without treatment</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── 05 DESIGN TOKENS ── -->
+<section class="section" id="tokens">
+  <div class="eyebrow">05 — Development</div>
+  <h2>Design Tokens</h2>
+  <p class="section-sub">CSS custom properties and Figma variables — the single source of truth for all visual decisions. Never use hardcoded values.</p>
+
+  <div class="card"><h3>Colour Tokens</h3></div>
+  <pre><span class="tok">:root</span> {
+  <span class="cmt">/* BACKGROUND */</span>
+  <span class="tok">--bg-base</span>:     #0A0A0A;  <span class="cmt">/* Main background */</span>
+  <span class="tok">--bg-surface</span>:  #111111;  <span class="cmt">/* Cards, alt sections */</span>
+  <span class="tok">--bg-elevated</span>: #1A1A1A;  <span class="cmt">/* Inputs, modals */</span>
+  <span class="tok">--bg-border</span>:   #2A2A2A;  <span class="cmt">/* Borders, dividers */</span>
+
+  <span class="cmt">/* TEXT */</span>
+  <span class="tok">--text-primary</span>:   #F5F5F0;
+  <span class="tok">--text-secondary</span>: rgba(245, 245, 240, 0.60);
+  <span class="tok">--text-tertiary</span>:  rgba(245, 245, 240, 0.35);
+  <span class="tok">--text-disabled</span>:  rgba(245, 245, 240, 0.20);
+  <span class="tok">--text-inverse</span>:   #0A0A0A;  <span class="cmt">/* Text on orange backgrounds */</span>
+
+  <span class="cmt">/* ACCENT */</span>
+  <span class="tok">--accent-primary</span>:  #FF4D00;
+  <span class="tok">--accent-hover</span>:    #FF7A35;
+  <span class="tok">--accent-pressed</span>:  #CC3D00;
+  <span class="tok">--accent-subtle</span>:   rgba(255, 77, 0, 0.12);
+  <span class="tok">--accent-glow</span>:     rgba(255, 77, 0, 0.25);
+
+  <span class="cmt">/* FEEDBACK */</span>
+  <span class="tok">--feedback-error</span>:   #FF3B30;
+  <span class="tok">--feedback-success</span>: #34C759;
+  <span class="tok">--feedback-warning</span>: #FF9500;
+}</pre>
+
+  <div class="card"><h3>Typography Tokens</h3></div>
+  <pre><span class="tok">:root</span> {
+  <span class="tok">--font-display</span>: 'Cabinet Grotesk', 'Clash Display', system-ui, sans-serif;
+  <span class="tok">--font-body</span>:    'Satoshi', 'Inter', system-ui, sans-serif;
+
+  <span class="cmt">/* SIZES — modular scale 1.25 */</span>
+  <span class="tok">--text-xs</span>:  0.75rem;   <span class="cmt">/* 12px */</span>
+  <span class="tok">--text-sm</span>:  0.875rem;  <span class="cmt">/* 14px */</span>
+  <span class="tok">--text-base</span>:1rem;      <span class="cmt">/* 16px */</span>
+  <span class="tok">--text-lg</span>:  1.125rem;  <span class="cmt">/* 18px */</span>
+  <span class="tok">--text-xl</span>:  1.25rem;   <span class="cmt">/* 20px */</span>
+  <span class="tok">--text-2xl</span>: 1.5rem;    <span class="cmt">/* 24px */</span>
+  <span class="tok">--text-4xl</span>: 2.25rem;   <span class="cmt">/* 36px */</span>
+  <span class="tok">--text-6xl</span>: 3.75rem;   <span class="cmt">/* 60px */</span>
+  <span class="tok">--text-8xl</span>: 6rem;      <span class="cmt">/* 96px */</span>
+  <span class="tok">--text-hero</span>:    clamp(3.75rem, 8vw, 8rem);   <span class="cmt">/* Responsive hero */</span>
+  <span class="tok">--text-section</span>: clamp(2.25rem, 5vw, 4.5rem); <span class="cmt">/* Responsive h2 */</span>
+
+  <span class="cmt">/* WEIGHTS */</span>
+  <span class="tok">--font-light</span>:     300;
+  <span class="tok">--font-regular</span>:   400;
+  <span class="tok">--font-bold</span>:      700;
+  <span class="tok">--font-extrabold</span>: 800;
+
+  <span class="cmt">/* LEADING */</span>
+  <span class="tok">--leading-tight</span>:   1.1;  <span class="cmt">/* Large headlines */</span>
+  <span class="tok">--leading-snug</span>:    1.3;  <span class="cmt">/* Subheadings */</span>
+  <span class="tok">--leading-normal</span>:  1.5;  <span class="cmt">/* Body */</span>
+  <span class="tok">--leading-relaxed</span>: 1.7;  <span class="cmt">/* Long-form body */</span>
+
+  <span class="cmt">/* TRACKING */</span>
+  <span class="tok">--tracking-tighter</span>: -0.03em; <span class="cmt">/* Hero headlines */</span>
+  <span class="tok">--tracking-tight</span>:   -0.02em; <span class="cmt">/* Headlines */</span>
+  <span class="tok">--tracking-wide</span>:     0.05em; <span class="cmt">/* Labels */</span>
+  <span class="tok">--tracking-wider</span>:    0.1em;  <span class="cmt">/* Tags, badges */</span>
+}</pre>
+
+  <div class="card"><h3>Spacing, Radius & Shadow</h3></div>
+  <pre><span class="tok">:root</span> {
+  <span class="cmt">/* SPACING — base 8px */</span>
+  <span class="tok">--space-2</span>:  0.5rem;  <span class="cmt">/*  8px */</span>
+  <span class="tok">--space-4</span>:  1rem;    <span class="cmt">/* 16px */</span>
+  <span class="tok">--space-6</span>:  1.5rem;  <span class="cmt">/* 24px */</span>
+  <span class="tok">--space-8</span>:  2rem;    <span class="cmt">/* 32px */</span>
+  <span class="tok">--space-12</span>: 3rem;    <span class="cmt">/* 48px */</span>
+  <span class="tok">--space-16</span>: 4rem;    <span class="cmt">/* 64px */</span>
+  <span class="tok">--space-20</span>: 5rem;    <span class="cmt">/* 80px */</span>
+  <span class="tok">--section-py</span>: clamp(4rem, 8vw, 8rem);
+  <span class="tok">--container-max</span>: 1280px;
+
+  <span class="cmt">/* BORDER RADIUS */</span>
+  <span class="tok">--radius-sm</span>:   4px;
+  <span class="tok">--radius-md</span>:   8px;
+  <span class="tok">--radius-lg</span>:   12px;
+  <span class="tok">--radius-xl</span>:   16px;
+  <span class="tok">--radius-full</span>: 9999px;
+
+  <span class="cmt">/* SHADOWS */</span>
+  <span class="tok">--shadow-md</span>:     0 4px 16px rgba(0,0,0,0.5);
+  <span class="tok">--shadow-lg</span>:     0 8px 32px rgba(0,0,0,0.6);
+  <span class="tok">--shadow-accent</span>: 0 0 24px rgba(255,77,0,0.3);
+
+  <span class="cmt">/* MOTION */</span>
+  <span class="tok">--duration-fast</span>:   200ms;
+  <span class="tok">--duration-normal</span>: 350ms;
+  <span class="tok">--duration-slow</span>:   500ms;
+  <span class="tok">--ease-out-expo</span>:   cubic-bezier(0.16, 1, 0.3, 1);
+  <span class="tok">--ease-spring</span>:     cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  <span class="cmt">/* Z-INDEX */</span>
+  <span class="tok">--z-nav</span>:    100;
+  <span class="tok">--z-modal</span>:  300;
+  <span class="tok">--z-cursor</span>: 9999;
+}</pre>
+</section>
+
+<hr class="divider">
+
+<!-- ── 06 INSTAGRAM ── -->
+<section class="section" id="instagram">
+  <div class="eyebrow">06 — Content</div>
+  <h2>Instagram Strategy</h2>
+  <p class="section-sub">How DevLoop shows up on Instagram — what gets posted, when, and how. The studio stays invisible; the work speaks.</p>
+
+  <div class="highlight">
+    <p><strong>Account:</strong> @devloop.agency · <strong>Schedule:</strong> 2 feed posts/week (Tuesday + Thursday, 9am) + daily Stories · <strong>Market:</strong> Ireland & UK (GMT timezone)</p>
+  </div>
+
+  <div class="card">
+    <h3>Instagram Bio</h3>
+    <pre style="margin-top:8px">We build websites for businesses
+ready to be taken seriously.
+Dublin · Ireland & UK
+↓ Start your project
+devloop.agency</pre>
+  </div>
+
+  <h3 style="font-size:14px;font-weight:700;margin:20px 0 14px;color:var(--dimmer);letter-spacing:.06em;text-transform:uppercase">The 5 Content Pillars</h3>
+
+  <div class="pillar">
+    <div><span class="pillar-num">40%</span></div>
+    <div>
+      <div class="pct"></div>
+      <h3>Pillar 1 — PROOF</h3>
+      <p>Before/after website transformations. Work showcases. Results. Show the work constantly — this builds mental availability (Byron Sharp). Formats: Carousel, Reel (site walkthrough), single mockup post.</p>
+    </div>
+  </div>
+
+  <div class="pillar">
+    <div><span class="pillar-num">25%</span></div>
+    <div>
+      <h3>Pillar 2 — EDUCATION</h3>
+      <p>Tips, truths, and insights about web design and digital presence for SMEs. Positions DevLoop as the expert guide. Builds trust before the sale. Formats: Carousel (tips), bold statement post, Stories (polls).</p>
+    </div>
+  </div>
+
+  <div class="pillar">
+    <div><span class="pillar-num">20%</span></div>
+    <div>
+      <h3>Pillar 3 — STUDIO POV</h3>
+      <p>Process, tools, and how DevLoop builds. No personal appearances — the studio's perspective, craft, and thinking. Tools being used. Screen recordings of work in progress. The studio voice without faces.</p>
+    </div>
+  </div>
+
+  <div class="pillar">
+    <div><span class="pillar-num">10%</span></div>
+    <div>
+      <h3>Pillar 4 — SOCIAL PROOF</h3>
+      <p>Client quotes, results, reactions. Branded quote cards. Review screenshots. The most trusted content is other people's experience — let clients speak.</p>
+    </div>
+  </div>
+
+  <div class="pillar">
+    <div><span class="pillar-num">5%</span></div>
+    <div>
+      <h3>Pillar 5 — CULTURE & POV</h3>
+      <p>Bold opinions about the industry. Things DevLoop believes that others don't say. Never naming competitors. Provocative but fair. Builds distinctiveness (Byron Sharp).</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:20px">
+    <h3>Posting Schedule</h3>
+    <div class="schedule" style="margin-top:16px">
+      <div class="day-card"><div class="day-name">Mon</div><div class="day-action">Stories only</div></div>
+      <div class="day-card post"><div class="day-name">Tue</div><div class="day-action">Feed post 9am</div></div>
+      <div class="day-card"><div class="day-name">Wed</div><div class="day-action">Stories only</div></div>
+      <div class="day-card post"><div class="day-name">Thu</div><div class="day-action">Feed post 9am</div></div>
+      <div class="day-card"><div class="day-name">Fri</div><div class="day-action">Stories only</div></div>
+      <div class="day-card"><div class="day-name">Sat</div><div class="day-action">Stories only</div></div>
+      <div class="day-card"><div class="day-name">Sun</div><div class="day-action">Rest / Plan</div></div>
+    </div>
+    <p style="font-size:13px;color:var(--dim)">Tuesday and Thursday at 9:00am are the highest-reach slots for Ireland/UK business audience. Stories run daily — they carry relationship building without requiring new production every day.</p>
+  </div>
+
+  <div class="card">
+    <h3>Caption Framework</h3>
+    <pre>1. HOOK — the first line that stops the scroll (most important)
+2. BODY — 2–4 lines max. The insight, the story, the proof.
+3. CTA  — one clear next step
+4. Hashtags (max 15)</pre>
+    <p style="font-size:13px;color:var(--dim);margin-top:12px"><strong>Hook formulas:</strong> "Most [audience] don't realise..." · "We built this in [X] days." · "[Surprising stat]." · "Your website is costing you [specific thing]." · "This is what [transformation] looks like."</p>
+  </div>
+
+  <div class="card">
+    <h3>Hashtag Strategy</h3>
+    <p><strong>Core (every post):</strong></p>
+    <div class="pill-row">
+      <span class="pill og">#webdesign</span>
+      <span class="pill og">#digitalstudio</span>
+      <span class="pill og">#websitedesign</span>
+      <span class="pill og">#irishbusiness</span>
+      <span class="pill og">#dublinbusiness</span>
+    </div>
+    <p style="margin-top:12px"><strong>Rotation (alternate by pillar):</strong></p>
+    <div class="pill-row">
+      <span class="pill">#smallbusiness</span>
+      <span class="pill">#ukbusiness</span>
+      <span class="pill">#webdevelopment</span>
+      <span class="pill">#startupireland</span>
+      <span class="pill">#irishentrepreneur</span>
+      <span class="pill">#sme</span>
+      <span class="pill">#aidesign</span>
+      <span class="pill">#websitelaunch</span>
+      <span class="pill">#brandingstudio</span>
+    </div>
+    <p style="font-size:12px;color:var(--dimmer);margin-top:10px">Rule: Never more than 15 hashtags. Mix 5 core + 5 rotation + 2–3 niche per post.</p>
+  </div>
+
+  <div class="card">
+    <h3>Story Types (daily rotation)</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Type</th><th>When</th><th>Purpose</th></tr></thead>
+        <tbody>
+          <tr><td>Education Tip</td><td>Morning</td><td>1 quick tip in bold text — no people required</td></tr>
+          <tr><td>Engagement Poll</td><td>Mid-day</td><td>"Which looks more credible?" — drives interaction</td></tr>
+          <tr><td>Work preview</td><td>Any time</td><td>Screen recording, design detail, tool in use</td></tr>
+          <tr><td>Quote card</td><td>Any time</td><td>Client testimonial, branded graphic</td></tr>
+          <tr><td>CTA story</td><td>Evening</td><td>Link to site or DM prompt</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ── 07 COMMUNICATIONS ── -->
+<section class="section" id="comms">
+  <div class="eyebrow">07 — Operations</div>
+  <h2>Communications</h2>
+  <p class="section-sub">Email templates, proposal structure, and client communication standards. Every touchpoint should feel like DevLoop.</p>
+
+  <div class="card">
+    <h3>Contact Form — How It Should Feel</h3>
+    <p>The form is the first moment of real conversation. It carries the brand's personality.</p>
+    <ul style="margin-top:10px">
+      <li>Labels: simple, direct, no asterisk for required fields</li>
+      <li>Placeholder text with personality: <em>"A restaurant, a consultancy, a product brand..."</em></li>
+      <li>Submit button: <strong>"Send it."</strong> — never "Submit" or "Send message"</li>
+      <li>Post-submit message: <strong>"Got it. We'll be in touch."</strong></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h3>Email Response Template</h3>
+    <pre>Subject: Re: DevLoop — [Project name]
+
+Hi [Name],
+
+Thanks for reaching out.
+
+We've read through your message and we're interested.
+
+We'll put together some initial thoughts and get back to you
+within [X] working days with questions and next steps.
+
+Talk soon.
+DevLoop</pre>
+    <p style="font-size:13px;color:var(--dim);margin-top:10px"><strong>Never:</strong> "Thank you for your interest in our services." / "Our team will review your request." / email signatures with photos and job titles.</p>
+  </div>
+
+  <div class="card">
+    <h3>Proposal Structure</h3>
+    <ul>
+      <li><strong>What we understood</strong> — proves we read and understood the client's business</li>
+      <li><strong>What we propose</strong> — clear description of what will be delivered</li>
+      <li><strong>How it works</strong> — process in 3–4 simple steps</li>
+      <li><strong>Investment</strong> — presented as investment, not cost</li>
+      <li><strong>Next step</strong> — one clear action: <em>"If this looks right, reply with a yes."</em></li>
+    </ul>
+    <p style="font-size:13px;color:var(--og);margin-top:10px">Format: PDF, dark mode, brand typography. Never a Word document.</p>
+  </div>
+
+  <div class="card">
+    <h3>Internal Glossary</h3>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td>The Loop</td><td>The core concept: closing the cycle between client's business and their growth</td></tr>
+          <tr><td>The Forgotten Ambitious</td><td>The ideal client — SME ascending in UK/Ireland, deserves more than the market offers</td></tr>
+          <tr><td>The Form</td><td>The only contact point. Not a limitation — a curation tool</td></tr>
+          <tr><td>The Studio</td><td>How we refer to DevLoop internally. Never "the company" or "the agency"</td></tr>
+          <tr><td>Close the loop</td><td>Complete a project / deliver the result / achieve the transformation</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="highlight" style="margin-top:20px">
+    <p><strong>Communication channels:</strong> All client contact via contact form → email. WhatsApp for existing clients (text only — no calls). No phone calls. No Calendly. No live chat. Async-first, text-based, precise.</p>
+  </div>
+</section>
+
+</main>
+
+<script>
+// Sidebar active state on scroll
+const sections=document.querySelectorAll('section[id]');
+const links=document.querySelectorAll('.nav-link');
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(l=>l.classList.remove('active'));
+      const a=document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if(a)a.classList.add('active');
+    }
+  });
+},{rootMargin:'-30% 0px -60% 0px'});
+sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
